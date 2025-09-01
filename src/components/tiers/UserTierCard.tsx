@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge'
 import { Progress } from '@/components/ui/progress'
 import { TIER_COLORS, TIER_BENEFITS, getUserTierProgress } from '@/lib/tiers'
 import { Database } from '@/lib/supabase'
+import { useTranslations } from '@/contexts/TranslationContext'
 
 type UserProfile = Database['public']['Tables']['users']['Row']
 
@@ -13,6 +14,7 @@ interface UserTierCardProps {
 }
 
 export function UserTierCard({ profile }: UserTierCardProps) {
+  const { t } = useTranslations()
   const tierProgress = getUserTierProgress(profile.items_lent)
   const currentTierInfo = TIER_BENEFITS[profile.tier]
 
@@ -20,20 +22,20 @@ export function UserTierCard({ profile }: UserTierCardProps) {
     <Card>
       <CardHeader>
         <div className="flex items-center justify-between">
-          <CardTitle className="text-lg">Your Tier Status</CardTitle>
+          <CardTitle className="text-lg">{t('tiers.yourTierStatus')}</CardTitle>
           <Badge className={TIER_COLORS[profile.tier]}>
-            {currentTierInfo.name}
+            {t(`tiers.${profile.tier.toLowerCase()}`)}
           </Badge>
         </div>
-        <CardDescription>{currentTierInfo.description}</CardDescription>
+        <CardDescription>{t(`tiers.${profile.tier.toLowerCase()}Description`)}</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="space-y-2">
           <div className="flex justify-between text-sm">
-            <span>Items Lent: {profile.items_lent}</span>
+            <span>{t('tiers.itemsLent')}: {profile.items_lent}</span>
             {tierProgress.nextTier && (
               <span>
-                Next: {TIER_BENEFITS[tierProgress.nextTier].name} ({tierProgress.nextTierThreshold} items)
+                {t('tiers.next')}: {t(`tiers.${tierProgress.nextTier.toLowerCase()}`)} ({tierProgress.nextTierThreshold} {t('tiers.items')})
               </span>
             )}
           </div>
@@ -43,7 +45,7 @@ export function UserTierCard({ profile }: UserTierCardProps) {
         </div>
 
         <div className="space-y-2">
-          <h4 className="font-medium text-sm">Current Benefits:</h4>
+          <h4 className="font-medium text-sm">{t('tiers.currentBenefits')}:</h4>
           <ul className="text-sm text-muted-foreground space-y-1">
             {currentTierInfo.benefits.map((benefit, index) => (
               <li key={index} className="flex items-center">
@@ -57,7 +59,7 @@ export function UserTierCard({ profile }: UserTierCardProps) {
         {tierProgress.nextTier && (
           <div className="space-y-2">
             <h4 className="font-medium text-sm">
-              Unlock at {TIER_BENEFITS[tierProgress.nextTier].name}:
+              {t('tiers.unlockAt')} {t(`tiers.${tierProgress.nextTier.toLowerCase()}`)}:
             </h4>
             <ul className="text-sm text-muted-foreground space-y-1">
               {TIER_BENEFITS[tierProgress.nextTier].benefits.map((benefit, index) => (
@@ -72,7 +74,7 @@ export function UserTierCard({ profile }: UserTierCardProps) {
 
         <div className="pt-2 border-t">
           <div className="text-sm text-muted-foreground">
-            Reputation Score: <span className="font-medium">{profile.reputation_score}</span>
+            {t('tiers.reputationScore')}: <span className="font-medium">{profile.reputation_score}</span>
           </div>
         </div>
       </CardContent>

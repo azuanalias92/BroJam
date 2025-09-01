@@ -9,12 +9,13 @@ import { Badge } from "@/components/ui/badge";
 import { TIER_COLORS, TIER_BENEFITS } from "@/lib/tiers";
 import { LogIn, UserPlus, User, Settings, LogOut, Store, Menu, X } from "lucide-react";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
-import { useLocale } from "@/contexts/TranslationContext";
+import { useLocale, useTranslations } from "@/contexts/TranslationContext";
 import { useState } from "react";
 
 export function Navbar() {
   const { user, profile, signOut } = useAuth();
   const locale = useLocale();
+  const { t } = useTranslations();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
@@ -22,7 +23,7 @@ export function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
-            <Link href="/" className="flex-shrink-0 flex items-center space-x-2">
+            <Link href={`/${locale}`} className="flex-shrink-0 flex items-center space-x-2">
               <Store className="h-8 w-8 text-primary" />
               <h1 className="text-xl sm:text-2xl font-bold text-primary">BroJam</h1>
             </Link>
@@ -30,14 +31,14 @@ export function Navbar() {
             {/* Desktop Navigation */}
             {user && (
               <div className="hidden md:ml-6 md:flex md:space-x-8">
-                <Link href="/marketplace" className="text-gray-900 hover:text-gray-700 px-3 py-2 text-sm font-medium">
-                  Marketplace
+                <Link href={`/${locale}/marketplace`} className="text-gray-900 hover:text-gray-700 px-3 py-2 text-sm font-medium">
+                  {t('nav.marketplace')}
                 </Link>
-                <Link href="/my-items" className="text-gray-900 hover:text-gray-700 px-3 py-2 text-sm font-medium">
-                  My Items
+                <Link href={`/${locale}/my-items`} className="text-gray-900 hover:text-gray-700 px-3 py-2 text-sm font-medium">
+                  {t('nav.myItems')}
                 </Link>
-                <Link href="/requests" className="text-gray-900 hover:text-gray-700 px-3 py-2 text-sm font-medium">
-                  Requests
+                <Link href={`/${locale}/requests`} className="text-gray-900 hover:text-gray-700 px-3 py-2 text-sm font-medium">
+                  {t('nav.requests')}
                 </Link>
               </div>
             )}
@@ -68,21 +69,21 @@ export function Navbar() {
                     </DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem asChild>
-                      <Link href="/dashboard" className="flex items-center">
+                      <Link href={`/${locale}/dashboard`} className="flex items-center">
                         <User className="mr-2 h-4 w-4" />
-                        Dashboard
+                        {t('nav.dashboard')}
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
                       <Link href={`/${locale}/profile`} className="flex items-center">
                         <Settings className="mr-2 h-4 w-4" />
-                        Profile
+                        {t('nav.profile')}
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem onClick={signOut} className="flex items-center">
                       <LogOut className="mr-2 h-4 w-4" />
-                      Sign out
+                      {t('nav.signOut')}
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
@@ -90,15 +91,15 @@ export function Navbar() {
             ) : (
               <div className="flex items-center space-x-2">
                 <Button variant="ghost" asChild size="sm">
-                  <Link href="/auth">
+                  <Link href={`/${locale}/auth`}>
                     <LogIn className="mr-2 h-4 w-4" />
-                    Sign In
+                    {t('nav.signIn')}
                   </Link>
                 </Button>
                 <Button asChild size="sm">
-                  <Link href="/auth">
+                  <Link href={`/${locale}/auth`}>
                     <UserPlus className="mr-2 h-4 w-4" />
-                    Get Started
+                    {t('nav.getStarted')}
                   </Link>
                 </Button>
               </div>
@@ -150,33 +151,33 @@ export function Navbar() {
 
                   {/* Navigation Links */}
                   <Link
-                    href="/marketplace"
+                    href={`/${locale}/marketplace`}
                     className="block px-3 py-3 text-base font-medium text-gray-900 hover:bg-gray-50 rounded-md"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
-                    Marketplace
+                    {t('nav.marketplace')}
                   </Link>
                   <Link
-                    href="/my-items"
+                    href={`/${locale}/my-items`}
                     className="block px-3 py-3 text-base font-medium text-gray-900 hover:bg-gray-50 rounded-md"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
-                    My Items
+                    {t('nav.myItems')}
                   </Link>
                   <Link
-                    href="/requests"
+                    href={`/${locale}/requests`}
                     className="block px-3 py-3 text-base font-medium text-gray-900 hover:bg-gray-50 rounded-md"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
-                    Requests
+                    {t('nav.requests')}
                   </Link>
                   <Link
-                    href="/dashboard"
+                    href={`/${locale}/dashboard`}
                     className="flex items-center px-3 py-3 text-base font-medium text-gray-900 hover:bg-gray-50 rounded-md"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     <User className="mr-3 h-5 w-5" />
-                    Dashboard
+                    {t('nav.dashboard')}
                   </Link>
                   <Link
                     href={`/${locale}/profile`}
@@ -184,7 +185,7 @@ export function Navbar() {
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     <Settings className="mr-3 h-5 w-5" />
-                    Profile
+                    {t('nav.profile')}
                   </Link>
                   <button
                     onClick={() => {
@@ -194,26 +195,26 @@ export function Navbar() {
                     className="flex items-center w-full px-3 py-3 text-base font-medium text-gray-900 hover:bg-gray-50 rounded-md"
                   >
                     <LogOut className="mr-3 h-5 w-5" />
-                    Sign out
+                    {t('nav.signOut')}
                   </button>
                 </>
               ) : (
                 <>
                   <Link
-                    href="/auth"
+                    href={`/${locale}/auth`}
                     className="flex items-center px-3 py-3 text-base font-medium text-gray-900 hover:bg-gray-50 rounded-md"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     <LogIn className="mr-3 h-5 w-5" />
-                    Sign In
+                    {t('nav.signIn')}
                   </Link>
                   <Link
-                    href="/auth"
+                    href={`/${locale}/auth`}
                     className="flex items-center px-3 py-3 text-base font-medium text-primary hover:bg-gray-50 rounded-md"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     <UserPlus className="mr-3 h-5 w-5" />
-                    Get Started
+                    {t('nav.getStarted')}
                   </Link>
                 </>
               )}

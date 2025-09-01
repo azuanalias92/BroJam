@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useAuth } from '@/contexts/AuthContext'
+import { useTranslations } from '@/contexts/TranslationContext'
 import { supabase } from '@/lib/supabase'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -34,6 +35,7 @@ const CATEGORIES = [
 
 export default function MyItemsPage() {
   const { user } = useAuth()
+  const { t } = useTranslations()
   const [items, setItems] = useState<Item[]>([])
   const [loading, setLoading] = useState(true)
   const [showAddDialog, setShowAddDialog] = useState(false)
@@ -143,14 +145,14 @@ export default function MyItemsPage() {
       resetForm()
     } catch (error: any) {
       console.error('Error saving item:', error)
-      alert('Failed to save item. Please try again.')
+      alert(t('myItems.failedToSave'))
     } finally {
       setSubmitting(false)
     }
   }
 
   const handleDeleteItem = async (itemId: string) => {
-    if (!confirm('Are you sure you want to delete this item?')) return
+    if (!confirm(t('myItems.deleteConfirm'))) return
 
     try {
       const { error } = await supabase
@@ -162,7 +164,7 @@ export default function MyItemsPage() {
       fetchItems()
     } catch (error: any) {
       console.error('Error deleting item:', error)
-      alert('Failed to delete item. Please try again.')
+      alert(t('myItems.failedToDelete'))
     }
   }
 
@@ -170,7 +172,7 @@ export default function MyItemsPage() {
     return (
       <div className="container mx-auto px-4 py-8">
         <div className="text-center">
-          <h1 className="text-2xl font-bold mb-4">Please sign in to manage your items</h1>
+          <h1 className="text-2xl font-bold mb-4">{t('myItems.pleaseSignIn')}</h1>
         </div>
       </div>
     )
@@ -180,7 +182,7 @@ export default function MyItemsPage() {
     return (
       <div className="container mx-auto px-4 py-8">
         <div className="text-center">
-          <p>Loading your items...</p>
+          <p>{t('myItems.loadingItems')}</p>
         </div>
       </div>
     )
@@ -189,12 +191,12 @@ export default function MyItemsPage() {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold">My Items</h1>
+        <h1 className="text-3xl font-bold">{t('myItems.title')}</h1>
         <Dialog open={showAddDialog} onOpenChange={setShowAddDialog}>
           <DialogTrigger asChild>
             <Button onClick={handleAddItem}>
               <Plus className="h-4 w-4 mr-2" />
-              Add Item
+              {t('myItems.addItem')}
             </Button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-md">

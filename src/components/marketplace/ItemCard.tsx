@@ -11,6 +11,7 @@ import { TIER_COLORS } from '@/lib/tiers'
 import { Database } from '@/lib/supabase'
 import { BorrowRequestDialog } from './BorrowRequestDialog'
 import { HandHeart, Lock, User } from 'lucide-react'
+import { useTranslations } from '@/contexts/TranslationContext';
 
 type Item = Database['public']['Tables']['items']['Row']
 type User = Database['public']['Tables']['users']['Row']
@@ -25,6 +26,7 @@ interface ItemCardProps {
 export function ItemCard({ item, owner, canBorrow, currentUserId }: ItemCardProps) {
   const [showBorrowDialog, setShowBorrowDialog] = useState(false)
   const isOwner = currentUserId === item.owner_id
+  const { t } = useTranslations()
 
   return (
     <>
@@ -55,7 +57,7 @@ export function ItemCard({ item, owner, canBorrow, currentUserId }: ItemCardProp
             <p className="text-xs sm:text-sm text-gray-600 line-clamp-2 leading-relaxed">{item.description}</p>
             
             <div className="flex items-center justify-between gap-2">
-              <Badge variant="secondary" className="text-xs px-2 py-1 truncate flex-shrink-0">{item.category}</Badge>
+              <Badge variant="secondary" className="text-xs px-2 py-1 truncate flex-shrink-0">{t(`categories.${item.category.toLowerCase()}`)}</Badge>
               <span className="text-base sm:text-lg font-bold text-right">${item.purchase_price}</span>
             </div>
             
@@ -68,7 +70,7 @@ export function ItemCard({ item, owner, canBorrow, currentUserId }: ItemCardProp
               </Avatar>
               <span className="text-xs sm:text-sm text-gray-600 truncate flex-1">{owner.full_name}</span>
               <Badge className={`${TIER_COLORS[owner.tier]} text-xs px-1.5 py-0.5 flex-shrink-0`}>
-                {owner.tier}
+                {t(`tiers.${owner.tier.toLowerCase()}`)}
               </Badge>
             </div>
             
@@ -82,8 +84,8 @@ export function ItemCard({ item, owner, canBorrow, currentUserId }: ItemCardProp
           {isOwner ? (
             <Button variant="outline" className="w-full h-10 sm:h-9 text-sm touch-manipulation" disabled>
               <User className="mr-2 h-4 w-4" />
-              <span className="hidden sm:inline">Your Item</span>
-              <span className="sm:hidden">Yours</span>
+              <span className="hidden sm:inline">{t('marketplace.yourItem')}</span>
+              <span className="sm:hidden">{t('marketplace.yours')}</span>
             </Button>
           ) : canBorrow ? (
             <Button 
@@ -91,14 +93,14 @@ export function ItemCard({ item, owner, canBorrow, currentUserId }: ItemCardProp
               onClick={() => setShowBorrowDialog(true)}
             >
               <HandHeart className="mr-2 h-4 w-4" />
-              <span className="hidden sm:inline">Request to Borrow</span>
-              <span className="sm:hidden">Request</span>
+              <span className="hidden sm:inline">{t('marketplace.requestToBorrow')}</span>
+              <span className="sm:hidden">{t('marketplace.request')}</span>
             </Button>
           ) : (
             <Button variant="outline" className="w-full h-10 sm:h-9 text-sm touch-manipulation" disabled>
               <Lock className="mr-2 h-4 w-4" />
-              <span className="hidden sm:inline">Tier Required: {item.tier}</span>
-              <span className="sm:hidden">Tier: {item.tier}</span>
+              <span className="hidden sm:inline">{t('marketplace.tierRequired')}: {item.tier}</span>
+              <span className="sm:hidden">{t('marketplace.tier')}: {item.tier}</span>
             </Button>
           )}
         </CardFooter>

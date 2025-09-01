@@ -1,9 +1,12 @@
-import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Home, ArrowLeft, Search } from 'lucide-react'
+"use client";
+
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Home, ArrowLeft, Search } from "lucide-react";
 
 export default function NotFound() {
+
   return (
     <div className="min-h-screen flex items-center justify-center px-4 bg-gradient-to-br from-primary/5 via-background to-secondary/5">
       <Card className="w-full max-w-md text-center">
@@ -12,14 +15,10 @@ export default function NotFound() {
             <Search className="h-10 w-10 text-primary" />
           </div>
           <CardTitle className="text-2xl font-bold">Page Not Found</CardTitle>
-          <CardDescription className="text-base">
-            Sorry, we couldn't find the page you're looking for.
-          </CardDescription>
+          <CardDescription className="text-base">Sorry, we couldn't find the page you're looking for.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          <p className="text-sm text-muted-foreground">
-            The page you requested might have been moved, deleted, or you entered the wrong URL.
-          </p>
+          <p className="text-sm text-muted-foreground">The page you requested might have been moved, deleted, or you entered the wrong URL.</p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Button asChild className="flex items-center gap-2">
               <Link href="/">
@@ -37,5 +36,5 @@ export default function NotFound() {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

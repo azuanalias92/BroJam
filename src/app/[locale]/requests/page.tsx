@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useAuth } from '@/contexts/AuthContext'
+import { useTranslations } from '@/contexts/TranslationContext'
 import { supabase } from '@/lib/supabase'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -25,6 +26,7 @@ interface RequestWithDetails extends BorrowRequest {
 
 export default function RequestsPage() {
   const { user } = useAuth()
+  const { t } = useTranslations()
   const [incomingRequests, setIncomingRequests] = useState<RequestWithDetails[]>([])
   const [outgoingRequests, setOutgoingRequests] = useState<RequestWithDetails[]>([])
   const [loading, setLoading] = useState(true)
@@ -118,7 +120,7 @@ export default function RequestsPage() {
                 </AvatarFallback>
               </Avatar>
               <span className="text-sm text-gray-600">
-                {isIncoming ? `From: ${request.borrower.full_name}` : `To: ${request.owner.full_name}`}
+                {isIncoming ? `${t('requests.from')}: ${request.borrower.full_name}` : `${t('requests.to')}: ${request.owner.full_name}`}
               </span>
             </div>
           </div>
@@ -135,24 +137,24 @@ export default function RequestsPage() {
         <div className="space-y-3">
           <div className="grid grid-cols-2 gap-4 text-sm">
             <div>
-              <span className="font-medium">Start Date:</span>
+              <span className="font-medium">{t('requests.startDate')}:</span>
               <p>{format(new Date(request.start_date), 'PPP')}</p>
             </div>
             <div>
-              <span className="font-medium">End Date:</span>
+              <span className="font-medium">{t('requests.endDate')}:</span>
               <p>{format(new Date(request.end_date), 'PPP')}</p>
             </div>
           </div>
           
           {request.message && (
             <div>
-              <span className="font-medium text-sm">Message:</span>
+              <span className="font-medium text-sm">{t('requests.message')}:</span>
               <p className="text-sm text-gray-600 mt-1">{request.message}</p>
             </div>
           )}
           
           <div className="text-xs text-gray-500">
-            Requested on {format(new Date(request.created_at), 'PPP')}
+            {t('requests.requestedOn')} {format(new Date(request.created_at), 'PPP')}
           </div>
           
           {isIncoming && request.status === 'pending' && (
@@ -161,7 +163,7 @@ export default function RequestsPage() {
                 size="sm" 
                 onClick={() => handleApprovalAction(request)}
               >
-                Review Request
+                {t('requests.reviewRequest')}
               </Button>
             </div>
           )}
@@ -174,7 +176,7 @@ export default function RequestsPage() {
     return (
       <div className="container mx-auto px-4 py-8">
         <div className="text-center">
-          <h1 className="text-2xl font-bold mb-4">Please sign in to view your requests</h1>
+          <h1 className="text-2xl font-bold mb-4">{t('requests.pleaseSignIn')}</h1>
         </div>
       </div>
     )
@@ -184,7 +186,7 @@ export default function RequestsPage() {
     return (
       <div className="container mx-auto px-4 py-8">
         <div className="text-center">
-          <p>Loading requests...</p>
+          <p>{t('requests.loadingRequests')}</p>
         </div>
       </div>
     )
@@ -192,25 +194,25 @@ export default function RequestsPage() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8">Borrowing Requests</h1>
+      <h1 className="text-3xl font-bold mb-8">{t('requests.title')}</h1>
       
       <Tabs defaultValue="incoming" className="w-full">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="incoming">
-            Incoming ({incomingRequests.length})
+            {t('requests.incoming')} ({incomingRequests.length})
           </TabsTrigger>
           <TabsTrigger value="outgoing">
-            Outgoing ({outgoingRequests.length})
+            {t('requests.outgoing')} ({outgoingRequests.length})
           </TabsTrigger>
         </TabsList>
         
         <TabsContent value="incoming" className="mt-6">
           <div className="space-y-4">
-            <h2 className="text-xl font-semibold">Requests for Your Items</h2>
+            <h2 className="text-xl font-semibold">{t('requests.requestsForYourItems')}</h2>
             {incomingRequests.length === 0 ? (
               <Card>
                 <CardContent className="p-6 text-center text-gray-500">
-                  No incoming requests yet
+                  {t('requests.noIncomingRequests')}
                 </CardContent>
               </Card>
             ) : (
@@ -223,11 +225,11 @@ export default function RequestsPage() {
         
         <TabsContent value="outgoing" className="mt-6">
           <div className="space-y-4">
-            <h2 className="text-xl font-semibold">Your Requests</h2>
+            <h2 className="text-xl font-semibold">{t('requests.yourRequests')}</h2>
             {outgoingRequests.length === 0 ? (
               <Card>
                 <CardContent className="p-6 text-center text-gray-500">
-                  No outgoing requests yet
+                  {t('requests.noOutgoingRequests')}
                 </CardContent>
               </Card>
             ) : (
