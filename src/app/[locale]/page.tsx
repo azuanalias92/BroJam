@@ -14,7 +14,7 @@ import { HomeClient } from './HomeClient';
 import { CTAClient } from './CTAClient';
 
 export default function Home() {
-  const { t } = useTranslations('home');
+  const t = useTranslations('home');
 
   return (
     <div className="min-h-screen">

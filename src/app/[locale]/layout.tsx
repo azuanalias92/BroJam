@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { Navbar } from "@/components/layout/Navbar";
 import { TranslationProvider } from "@/contexts/TranslationContext";
+import { ThemeProvider } from "@/contexts/ThemeContext";
 import fs from 'fs';
 import path from 'path';
 
@@ -37,11 +38,13 @@ export default async function LocaleLayout({
   const messages = await getMessages(locale);
 
   return (
-    <TranslationProvider locale={locale} translations={messages}>
-      <AuthProvider>
-        <Navbar />
-        <main>{children}</main>
-      </AuthProvider>
-    </TranslationProvider>
+    <ThemeProvider>
+      <TranslationProvider locale={locale} translations={messages}>
+        <AuthProvider>
+          <Navbar />
+          <main>{children}</main>
+        </AuthProvider>
+      </TranslationProvider>
+    </ThemeProvider>
   );
 }

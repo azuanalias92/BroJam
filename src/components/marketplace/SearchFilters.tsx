@@ -35,7 +35,7 @@ export function SearchFilters({
   locationFilter,
   priceRange,
 }: SearchFiltersProps) {
-  const { t } = useTranslations();
+  const t = useTranslations();
   const [localSearchQuery, setLocalSearchQuery] = useState(searchQuery);
   const [localLocation, setLocalLocation] = useState(locationFilter);
   const [minPrice, setMinPrice] = useState(priceRange.min?.toString() || "");

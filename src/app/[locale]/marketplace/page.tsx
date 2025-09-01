@@ -18,7 +18,7 @@ type Item = Database["public"]["Tables"]["items"]["Row"] & {
 
 export default function MarketplacePage() {
   const { user, profile } = useAuth();
-  const { t } = useTranslations();
+  const t = useTranslations();
   const locale = useLocale();
 
   const [items, setItems] = useState<Item[]>([]);
@@ -79,22 +79,22 @@ export default function MarketplacePage() {
   };
 
   const categories = [
-    t("marketplace.categories.electronics"),
-    t("marketplace.categories.tools"),
-    t("marketplace.categories.sports"),
-    t("marketplace.categories.books"),
-    t("marketplace.categories.clothing"),
-    t("marketplace.categories.homeGarden"),
-    t("marketplace.categories.automotive"),
-    t("marketplace.categories.other"),
+    t("common.categories.electronics"),
+    t("common.categories.tools"),
+    t("common.categories.sports"),
+    t("common.categories.books"),
+    t("common.categories.clothing"),
+    t("common.categories.homeGarden"),
+    t("common.categories.automotive"),
+    t("common.categories.other"),
   ];
 
   if (!user) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold mb-4">{t("marketplace.welcomeTitle")}</h1>
-          <p className="text-gray-600 mb-6">{t("marketplace.welcomeSubtitle")}</p>
+          <h1 className="text-2xl font-bold mb-4">{t("common.welcomeTitle")}</h1>
+          <p className="text-gray-600 mb-6">{t("common.welcomeSubtitle")}</p>
           <Button asChild>
             <Link href={`/${locale}/auth`}>{t("auth.signIn")}</Link>
           </Button>
@@ -102,6 +102,8 @@ export default function MarketplacePage() {
       </div>
     );
   }
+
+  console.log("test ->", t("marketplace.title"));
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -142,10 +144,10 @@ export default function MarketplacePage() {
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">{t("marketplace.allTiers")}</SelectItem>
-              <SelectItem value="basic">{t("marketplace.basic")}</SelectItem>
-              <SelectItem value="premium">{t("marketplace.premium")}</SelectItem>
-              <SelectItem value="luxury">{t("marketplace.luxury")}</SelectItem>
-              <SelectItem value="exclusive">{t("marketplace.exclusive")}</SelectItem>
+              <SelectItem value="basic">{t("common.basic")}</SelectItem>
+              <SelectItem value="premium">{t("common.premium")}</SelectItem>
+              <SelectItem value="luxury">{t("common.luxury")}</SelectItem>
+              <SelectItem value="exclusive">{t("common.exclusive")}</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -156,9 +158,9 @@ export default function MarketplacePage() {
               <SelectValue placeholder={t("marketplace.sortBy")} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="created_at">{t("marketplace.newestFirst")}</SelectItem>
-              <SelectItem value="price_asc">{t("marketplace.priceLowHigh")}</SelectItem>
-              <SelectItem value="price_desc">{t("marketplace.priceHighLow")}</SelectItem>
+              <SelectItem value="created_at">{t("common.newestFirst")}</SelectItem>
+              <SelectItem value="price_asc">{t("common.priceLowHigh")}</SelectItem>
+              <SelectItem value="price_desc">{t("common.priceHighLow")}</SelectItem>
             </SelectContent>
           </Select>
         </div>

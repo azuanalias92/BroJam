@@ -39,14 +39,19 @@ export function useTranslations(namespace?: string) {
     throw new Error("useTranslations must be used within a TranslationProvider");
   }
 
-  const { t, locale } = context;
+  const { t } = context;
 
-  return {
-    t: (key: string) => {
-      const fullKey = namespace ? `${namespace}.${key}` : key;
-      return t(fullKey);
-    },
-    locale,
+  console.log();
+
+  return (key: string) => {
+
+    const fullKey = namespace ? `${namespace}.${key}` : key;
+    console.log("fullKey", fullKey);
+        console.log("fullKey", t(fullKey));
+
+
+
+    return t(fullKey);
   };
 }
 

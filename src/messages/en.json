@@ -1,71 +1,297 @@
 {
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "add": "Add",
+    "search": "Search",
+    "filter": "Filter",
+    "welcomeTitle": "Welcome to BroJam Marketplace",
+    "welcomeSubtitle": "Sign in to start borrowing items from the community",
+    "subtitle": "Discover items available for borrowing",
+    "listItem": "List an Item",
+    "basic": "Basic",
+    "premium": "Premium",
+    "luxury": "Luxury",
+    "exclusive": "Exclusive",
+    "sortBy": "Sort by",
+    "newestFirst": "Newest First",
+    "priceLowHigh": "Price: Low to High",
+    "priceHighLow": "Price: High to Low",
+    "noItemsFound": "No items found matching your criteria.",
+    "beFirstToList": "Be the first to list an item!",
+    "categories": {
+      "electronics": "Electronics",
+      "tools": "Tools",
+      "sports": "Sports",
+      "books": "Books",
+      "clothing": "Clothing",
+      "homeGarden": "Home & Garden",
+      "automotive": "Automotive",
+      "other": "Other"
+    },
+    "clear": "Clear",
+    "submit": "Submit",
+    "close": "Close",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "yes": "Yes",
+    "no": "No",
+    "processing": "Processing..."
+  },
+  "nav": {
+    "marketplace": "Marketplace",
+    "myItems": "My Items",
+    "requests": "Requests",
+    "dashboard": "Dashboard",
+    "profile": "Profile",
+    "signOut": "Sign Out",
+    "signIn": "Sign In",
+    "getStarted": "Get Started"
+  },
   "home": {
     "hero": {
-      "badge": "New Platform",
-      "title": "Welcome to BroJam",
-      "subtitle": "Connect, Share, and Jam with Your Bros",
-      "getStarted": "Get Started",
+      "badge": "🌟 Welcome to the Future of Sharing",
+      "title": "BroJam",
+      "subtitle": "The peer-to-peer platform where neighbors become friends through sharing. Lend what you have, borrow what you need.",
       "browseMarketplace": "Browse Marketplace",
       "myDashboard": "My Dashboard",
+      "getStarted": "Get Started",
       "exploreItems": "Explore Items"
     },
     "features": {
       "title": "Why Choose BroJam?",
-      "subtitle": "Discover what makes our platform special",
+      "subtitle": "Join a community built on trust, sustainability, and mutual support",
       "communityDriven": {
         "title": "Community Driven",
-        "description": "Built by the community, for the community. Every feature is designed with your needs in mind."
+        "description": "Connect with neighbors and build lasting relationships through sharing"
       },
       "trustSafety": {
         "title": "Trust & Safety",
-        "description": "Advanced verification systems and community moderation ensure a safe environment for everyone."
+        "description": "Advanced tier system and reputation scores ensure reliable transactions"
       },
       "sustainable": {
-        "title": "Sustainable",
-        "description": "Promote reuse and reduce waste by giving items a second life in our marketplace."
+        "title": "Sustainable Living",
+        "description": "Reduce waste and environmental impact by sharing resources"
       },
       "tierSystem": {
         "title": "Tier System",
-        "description": "Earn rewards and unlock exclusive features as you contribute to the community."
+        "description": "Earn rewards and unlock benefits as you contribute to the community"
       },
       "easyToUse": {
         "title": "Easy to Use",
-        "description": "Intuitive interface designed for seamless browsing, listing, and connecting with others."
+        "description": "Simple, intuitive interface makes lending and borrowing effortless"
       },
       "giveBack": {
         "title": "Give Back",
-        "description": "Support local communities and charities through our integrated giving programs."
+        "description": "Help others while decluttering your space and earning community points"
       }
     },
     "howItWorks": {
       "title": "How It Works",
-      "subtitle": "Getting started is simple and straightforward",
+      "subtitle": "Getting started is simple and takes just a few minutes",
       "step1": {
-        "title": "Sign Up",
-        "description": "Create your account and join our growing community of bros."
+        "title": "Sign Up & Verify",
+        "description": "Create your account and verify your identity to join our trusted community"
       },
       "step2": {
         "title": "List or Browse",
-        "description": "Post items you want to share or browse what others have available."
+        "description": "Add items you want to lend or browse what's available in your area"
       },
       "step3": {
-        "title": "Connect & Jam",
-        "description": "Meet up with fellow bros and make meaningful connections."
+        "title": "Connect & Share",
+        "description": "Send requests, arrange pickup, and start building community connections"
       }
     },
     "cta": {
-      "title": "Ready to Join the Jam?",
-      "subtitle": "Start connecting with your community today",
-      "joinNow": "Join Now",
-      "joinToday": "Join Today",
-      "learnMore": "Learn More"
+      "title": "Ready to Start Sharing?",
+      "subtitle": "Join thousands of neighbors who are already building stronger communities through sharing",
+      "joinToday": "Join BroJam Today"
     }
   },
+  "marketplace": {
+    "title": "Marketplace",
+    "subtitle": "Find your item here",
+    "searchPlaceholder": "Search items...",
+    "search": "Search",
+    "category": "Category",
+    "allCategories": "All Categories",
+    "itemTier": "Item Tier",
+    "allTiers": "All Tiers",
+    "location": "Location",
+    "priceRange": "Price Range",
+    "noItems": "No items found",
+    "requestToBorrow": "Request to Borrow",
+    "ownedByYou": "Owned by You",
+    "tierRequired": "Tier Required",
+    "request": "Request",
+    "yourItem": "Your Item",
+    "yours": "Yours",
+    "tier": "Tier",
+    "borrowRequestTitle": "Borrow Request",
+    "borrowRequestDescription": "Send a request to borrow this item",
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "selectDate": "Select date",
+    "messageOptional": "Message (Optional)",
+    "messagePlaceholder": "Tell the owner why you need this item...",
+    "sending": "Sending...",
+    "sendRequest": "Send Request",
+    "cancel": "Cancel",
+    "listItem" : "List an Item"
+  },
+  "requests": {
+    "title": "Borrowing Requests",
+    "incoming": "Incoming",
+    "outgoing": "Outgoing",
+    "from": "From",
+    "to": "To",
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "message": "Message",
+    "requestedOn": "Requested on",
+    "reviewRequest": "Review Request",
+    "pleaseSignIn": "Please sign in to view your requests",
+    "loadingRequests": "Loading requests...",
+    "requestsForYourItems": "Requests for Your Items",
+    "yourRequests": "Your Requests",
+    "noIncomingRequests": "No incoming requests yet",
+    "noOutgoingRequests": "No outgoing requests yet",
+    "borrowingRequests": "Borrowing Requests",
+    "incomingRequests": "Incoming Requests",
+    "outgoingRequests": "Outgoing Requests",
+    "noRequests": "No requests found",
+    "requestSent": "Request sent successfully",
+    "requestApproved": "Request approved",
+    "requestRejected": "Request rejected",
+    "borrowRequest": "Borrow Request",
+    "reviewAndManage": "Review and manage this borrowing request",
+    "itemsLent": "items lent",
+    "borrowerMessage": "Borrower's Message",
+    "responseMessage": "Response Message (Optional)",
+    "addMessagePlaceholder": "Add a message for the borrower...",
+    "markAsComplete": "Mark as Complete",
+    "status": {
+      "pending": "Pending",
+      "approved": "Approved",
+      "rejected": "Rejected",
+      "completed": "Completed"
+    },
+    "approve": "Approve",
+    "reject": "Reject",
+    "markComplete": "Mark Complete",
+    "requestDetails": "Request Details",
+    "viewRequestDetails": "View the details of this borrowing request",
+    "borrower": "Borrower",
+    "requestedDates": "Requested Dates",
+    "responseMessageOptional": "Response Message (Optional)",
+    "responseMessagePlaceholder": "Add a message for the borrower...",
+    "processing": "Processing...",
+    "markAsCompleted": "Mark as Completed",
+    "close": "Close"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Welcome back",
+    "stats": {
+      "itemsLent": "Items Lent",
+      "itemsBorrowed": "Items Borrowed",
+      "reputationScore": "Reputation Score"
+    },
+    "recentActivity": "Recent Activity",
+    "yourItems": "Your Items",
+    "noActivity": "No recent activity",
+    "noItems": "No items yet"
+  },
+  "myItems": {
+    "title": "My Items",
+    "addItem": "Add New Item",
+    "noItems": "You haven't added any items yet",
+    "itemTitle": "Item Title",
+    "description": "Description",
+    "category": "Category",
+    "purchasePrice": "Purchase Price",
+    "location": "Location",
+    "imageUrl": "Image URL",
+    "addItemSuccess": "Item added successfully!",
+    "deleteItemSuccess": "Item deleted successfully!"
+  },
+  "tiers": {
+    "status": "Tier Status",
+    "bronze": "Bronze",
+    "silver": "Silver",
+    "gold": "Gold",
+    "platinum": "Platinum",
+    "tier": "Tier",
+    "bronzeDescription": "New member - Build your reputation by lending items",
+    "silverDescription": "Trusted member - Access to premium features",
+    "goldDescription": "Valued member - Priority support and exclusive items",
+    "platinumDescription": "Elite member - Full platform privileges",
+    "itemsLent": "Items Lent",
+    "nextTier": "Next Tier",
+    "currentBenefits": "Current Benefits",
+    "unlockAt": "Unlock at",
+    "reputationScore": "Reputation Score",
+    "currentTier": "Current Tier",
+    "progress": "Progress to next tier",
+    "benefits": "Benefits"
+  },
+  "auth": {
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "email": "Email",
+    "password": "Password",
+    "fullName": "Full Name",
+    "signInWithEmail": "Sign in with Email",
+    "signUpWithEmail": "Sign up with Email",
+    "alreadyHaveAccount": "Already have an account?",
+    "dontHaveAccount": "Don't have an account?",
+    "signInError": "Error signing in",
+    "signUpError": "Error signing up",
+    "orContinueWith": "Or continue with",
+    "welcomeBack": "Welcome back to BroJam Marketplace",
+    "createAccount": "Create your BroJam account",
+    "enterFullName": "Enter your full name",
+    "enterEmail": "Enter your email",
+    "enterPassword": "Enter your password (min 6 characters)",
+    "loading": "Loading...",
+    "continueWithGoogle": "Continue with Google"
+  },
   "notFound": {
-    "title": "Page Not Found",
-    "subtitle": "Sorry, we couldn't find the page you're looking for.",
-    "description": "The page you requested might have been moved, deleted, or you entered the wrong URL.",
+    "title": "Page Not Found 2",
+    "subtitle": "The page you're looking for doesn't exist",
+    "description": "The page you are trying to access might have been moved, deleted, or you might have entered the wrong URL.",
     "goHome": "Go Home",
     "goBack": "Go Back"
-  }
+  },
+  "profile": {
+    "pleaseSignIn": "Please sign in to view your profile",
+    "selectImageFile": "Please select an image file",
+    "imageSizeLimit": "Image size must be less than 5MB",
+    "avatarUpdated": "Avatar updated successfully!",
+    "avatarUploadFailed": "Failed to upload avatar",
+    "user": "User",
+    "reputationScore": "Reputation Score",
+    "itemsLent": "Items Lent",
+    "memberSince": "Member Since",
+    "profileInformation": "Profile Information",
+    "managePersonalInfo": "Manage your personal information",
+    "edit": "Edit",
+    "save": "Save",
+    "cancel": "Cancel",
+    "fullName": "Full Name",
+    "enterFullName": "Enter your full name",
+    "notProvided": "Not provided",
+    "email": "Email",
+    "tierProgress": "Tier Progress",
+    "itemsLentProgress": "items lent",
+    "progressTo": "to",
+    "maxTierAchieved": "Maximum tier achieved!"
+  },
+  "submit": "Submit"
 }

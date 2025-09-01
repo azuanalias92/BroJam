@@ -24,7 +24,7 @@ export function AuthForm({ mode, onToggleMode }: AuthFormProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
-  const { t } = useTranslations("auth");
+  const t = useTranslations("auth");
   const locale = useLocale();
 
   const handleSubmit = async (e: React.FormEvent) => {

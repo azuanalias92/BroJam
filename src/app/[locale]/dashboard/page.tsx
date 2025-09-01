@@ -33,7 +33,7 @@ interface DashboardStats {
 
 export default function DashboardPage() {
   const { user, profile } = useAuth();
-  const { t } = useTranslations();
+  const t = useTranslations();
   const [stats, setStats] = useState<DashboardStats>({
     totalItems: 0,
     activeRequests: 0,

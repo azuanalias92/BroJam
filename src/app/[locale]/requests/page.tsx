@@ -26,7 +26,7 @@ interface RequestWithDetails extends BorrowRequest {
 
 export default function RequestsPage() {
   const { user } = useAuth()
-  const { t } = useTranslations()
+  const t = useTranslations();
   const [incomingRequests, setIncomingRequests] = useState<RequestWithDetails[]>([])
   const [outgoingRequests, setOutgoingRequests] = useState<RequestWithDetails[]>([])
   const [loading, setLoading] = useState(true)

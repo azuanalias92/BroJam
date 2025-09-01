@@ -9,7 +9,7 @@ import { useLocale } from "@/contexts/TranslationContext";
 
 export function CTAClient() {
   const { user } = useAuth();
-  const { t } = useTranslations("home");
+  const t = useTranslations("home");
   const locale = useLocale();
 
   return (

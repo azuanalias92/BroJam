@@ -31,7 +31,7 @@ export function BorrowRequestDialog({ item, owner, open, onOpenChange }: BorrowR
   const [endDate, setEndDate] = useState<Date>();
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
-  const { t } = useTranslations();
+  const t = useTranslations();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

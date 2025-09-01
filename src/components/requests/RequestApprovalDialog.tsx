@@ -32,7 +32,7 @@ interface RequestApprovalDialogProps {
 }
 
 export function RequestApprovalDialog({ request, open, onOpenChange, onUpdate }: RequestApprovalDialogProps) {
-  const { t } = useTranslations();
+  const t = useTranslations();
   const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState("");
 

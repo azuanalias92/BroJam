@@ -17,7 +17,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 
 export function ProfileClient() {
   const { user, profile, refreshProfile } = useAuth();
-  const { t } = useTranslations();
+  const t = useTranslations();
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
     full_name: "",
@@ -75,13 +75,13 @@ export function ProfileClient() {
 
     // Validate file type
     if (!file.type.startsWith("image/")) {
-      setUploadMessage({ type: "error", message: "Please select an image file" });
+      setUploadMessage({ type: "error", message: t('profile.selectImageFile') });
       return;
     }
 
     // Validate file size (max 5MB)
     if (file.size > 5 * 1024 * 1024) {
-      setUploadMessage({ type: "error", message: "Image size must be less than 5MB" });
+      setUploadMessage({ type: "error", message: t('profile.imageSizeLimit') });
       return;
     }
 
@@ -138,10 +138,10 @@ export function ProfileClient() {
       if (authUpdateError) throw authUpdateError;
 
       await refreshProfile();
-      setUploadMessage({ type: "success", message: "Avatar updated successfully!" });
+      setUploadMessage({ type: "success", message: t('profile.avatarUpdated') });
     } catch (error) {
       console.error("Error uploading avatar:", error);
-      setUploadMessage({ type: "error", message: "Failed to upload avatar" });
+      setUploadMessage({ type: "error", message: t('profile.avatarUploadFailed') });
     } finally {
       setIsUploadingAvatar(false);
       // Reset file input
@@ -166,7 +166,7 @@ export function ProfileClient() {
     return (
       <div className="container mx-auto px-4 py-8">
         <div className="text-center">
-          <h1 className="text-2xl font-bold mb-4">Please sign in to view your profile</h1>
+          <h1 className="text-2xl font-bold mb-4">{t('profile.pleaseSignIn')}</h1>
         </div>
       </div>
     );
@@ -205,7 +205,7 @@ export function ProfileClient() {
                   <input ref={fileInputRef} type="file" accept="image/*" onChange={handleAvatarUpload} className="hidden" />
                 </div>
               </div>
-              <CardTitle className="text-lg sm:text-xl">{profile.full_name || "User"}</CardTitle>
+              <CardTitle className="text-lg sm:text-xl">{profile.full_name || t('profile.user')}</CardTitle>
               <CardDescription className="text-sm break-all">{user.email}</CardDescription>
               <div className="flex justify-center mt-2">
                 <Badge className={TIER_COLORS[profile.tier]}>{TIER_BENEFITS[profile.tier].name}</Badge>
@@ -214,7 +214,7 @@ export function ProfileClient() {
             <CardContent className="p-4 sm:p-6">
               <div className="space-y-4">
                 <div>
-                  <Label className="text-sm font-medium">Reputation Score</Label>
+                  <Label className="text-sm font-medium">{t('profile.reputationScore')}</Label>
                   <div className="flex items-center space-x-2 mt-1">
                     <Progress value={tierProgressData.progress} className="flex-1" />
                     <span className="text-xs sm:text-sm text-muted-foreground whitespace-nowrap">
@@ -225,11 +225,11 @@ export function ProfileClient() {
 
                 <div className="grid grid-cols-2 gap-3 sm:gap-4 text-sm">
                   <div>
-                    <Label className="text-muted-foreground text-xs sm:text-sm">Items Lent</Label>
+                    <Label className="text-muted-foreground text-xs sm:text-sm">{t('profile.itemsLent')}</Label>
                     <p className="font-medium text-sm sm:text-base">{profile.items_lent || 0}</p>
                   </div>
                   <div>
-                    <Label className="text-muted-foreground text-xs sm:text-sm">Reputation Score</Label>
+                    <Label className="text-muted-foreground text-xs sm:text-sm">{t('profile.reputationScore')}</Label>
                     <p className="font-medium text-sm sm:text-base">{profile.reputation_score || 0}</p>
                   </div>
                 </div>
@@ -237,7 +237,7 @@ export function ProfileClient() {
                 <div className="text-sm">
                   <Label className="text-muted-foreground flex items-center text-xs sm:text-sm">
                     <Calendar className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
-                    Member Since
+                    {t('profile.memberSince')}
                   </Label>
                   <p className="font-medium text-sm">{new Date(profile.created_at).toLocaleDateString()}</p>
                 </div>
@@ -281,24 +281,24 @@ export function ProfileClient() {
               <div className="grid gap-4 sm:gap-6">
                 <div>
                   <Label htmlFor="full_name" className="text-sm font-medium">
-                    Full Name
+                    {t('profile.fullName')}
                   </Label>
                   {isEditing ? (
                     <Input
                       id="full_name"
                       value={formData.full_name}
                       onChange={(e) => setFormData({ ...formData, full_name: e.target.value })}
-                      placeholder="Enter your full name"
+                      placeholder={t('profile.enterFullName')}
                       className="mt-2 h-11 text-base touch-manipulation"
                     />
                   ) : (
-                    <p className="mt-2 text-sm sm:text-base text-muted-foreground">{profile.full_name || "Not provided"}</p>
+                    <p className="mt-2 text-sm sm:text-base text-muted-foreground">{profile.full_name || t('profile.notProvided')}</p>
                   )}
                 </div>
 
                 <div>
                   <Label htmlFor="email" className="text-sm font-medium">
-                    Email
+                    {t('profile.email')}
                   </Label>
                   <div className="flex items-center mt-2">
                     <Mail className="h-4 w-4 mr-2 text-muted-foreground flex-shrink-0" />
@@ -307,12 +307,12 @@ export function ProfileClient() {
                 </div>
 
                 <div>
-                  <Label className="text-sm font-medium">Tier Progress</Label>
+                  <Label className="text-sm font-medium">{t('profile.tierProgress')}</Label>
                   <div className="mt-2">
                     <p className="text-sm text-muted-foreground leading-relaxed">
                       {tierProgressData.nextTier
-                        ? `${tierProgressData.itemsLent} items lent - ${Math.round(tierProgressData.progress)}% to ${TIER_BENEFITS[tierProgressData.nextTier].name}`
-                        : "Maximum tier achieved!"}
+                        ? `${tierProgressData.itemsLent} ${t('profile.itemsLentProgress')} - ${Math.round(tierProgressData.progress)}% ${t('profile.progressTo')} ${TIER_BENEFITS[tierProgressData.nextTier].name}`
+                        : t('profile.maxTierAchieved')}
                     </p>
                   </div>
                 </div>

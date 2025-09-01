@@ -26,7 +26,7 @@ interface ItemCardProps {
 export function ItemCard({ item, owner, canBorrow, currentUserId }: ItemCardProps) {
   const [showBorrowDialog, setShowBorrowDialog] = useState(false)
   const isOwner = currentUserId === item.owner_id
-  const { t } = useTranslations()
+  const t = useTranslations();
 
   return (
     <>

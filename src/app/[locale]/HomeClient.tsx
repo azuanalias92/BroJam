@@ -8,7 +8,7 @@ import { useTranslations, useLocale } from "@/contexts/TranslationContext";
 
 export function HomeClient() {
   const { user } = useAuth();
-  const { t } = useTranslations("home");
+  const t = useTranslations("home");
   const locale = useLocale();
 
   return (

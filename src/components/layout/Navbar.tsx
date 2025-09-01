@@ -9,17 +9,18 @@ import { Badge } from "@/components/ui/badge";
 import { TIER_COLORS, TIER_BENEFITS } from "@/lib/tiers";
 import { LogIn, UserPlus, User, Settings, LogOut, Store, Menu, X } from "lucide-react";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { useLocale, useTranslations } from "@/contexts/TranslationContext";
 import { useState } from "react";
 
 export function Navbar() {
   const { user, profile, signOut } = useAuth();
   const locale = useLocale();
-  const { t } = useTranslations();
+  const t = useTranslations();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <nav className="border-b bg-white">
+    <nav className="border-b bg-background">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
@@ -46,6 +47,7 @@ export function Navbar() {
 
           {/* Desktop Right Side */}
           <div className="hidden md:flex items-center space-x-4">
+            <ThemeToggle />
             <LanguageSwitcher />
             {user ? (
               <>
@@ -108,6 +110,7 @@ export function Navbar() {
 
           {/* Mobile Menu Button */}
           <div className="md:hidden flex items-center space-x-2">
+            <ThemeToggle />
             <LanguageSwitcher />
             <Button
               variant="ghost"
@@ -126,7 +129,7 @@ export function Navbar() {
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="md:hidden border-t bg-white">
+          <div className="md:hidden border-t bg-background">
             <div className="px-2 pt-2 pb-3 space-y-1">
               {user ? (
                 <>

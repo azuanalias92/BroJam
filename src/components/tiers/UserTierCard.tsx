@@ -14,7 +14,7 @@ interface UserTierCardProps {
 }
 
 export function UserTierCard({ profile }: UserTierCardProps) {
-  const { t } = useTranslations()
+  const t = useTranslations();
   const tierProgress = getUserTierProgress(profile.items_lent)
   const currentTierInfo = TIER_BENEFITS[profile.tier]
 

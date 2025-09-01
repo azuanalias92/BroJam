@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { useAuth } from '@/contexts/AuthContext'
 import { useTranslations } from '@/contexts/TranslationContext'
 import { supabase } from '@/lib/supabase'
+import { uploadMultiplePhotos, getItemPhotos, deletePhoto, PhotoData } from '@/lib/photo-upload'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -17,6 +18,7 @@ import { calculateItemTier } from '@/lib/tiers'
 import { Plus, Edit, Trash2 } from 'lucide-react'
 import { Database } from '@/lib/supabase'
 import Image from 'next/image'
+import { PhotoUpload } from '@/components/ui/photo-upload'
 
 type Item = Database['public']['Tables']['items']['Row']
 
@@ -35,7 +37,7 @@ const CATEGORIES = [
 
 export default function MyItemsPage() {
   const { user } = useAuth()
-  const { t } = useTranslations()
+  const t = useTranslations();
   const [items, setItems] = useState<Item[]>([])
   const [loading, setLoading] = useState(true)
   const [showAddDialog, setShowAddDialog] = useState(false)
@@ -45,10 +47,12 @@ export default function MyItemsPage() {
     description: '',
     category: '',
     purchase_price: '',
-    location: '',
-    image_url: ''
+    location: ''
   })
+  const [photos, setPhotos] = useState<File[]>([])
+  const [existingPhotos, setExistingPhotos] = useState<PhotoData[]>([])
   const [submitting, setSubmitting] = useState(false)
+  const [isUploading, setIsUploading] = useState(false)
 
   useEffect(() => {
     if (user) {
@@ -81,9 +85,10 @@ export default function MyItemsPage() {
       description: '',
       category: '',
       purchase_price: '',
-      location: '',
-      image_url: ''
+      location: ''
     })
+    setPhotos([])
+    setExistingPhotos([])
     setEditingItem(null)
   }
 
@@ -92,17 +97,40 @@ export default function MyItemsPage() {
     setShowAddDialog(true)
   }
 
-  const handleEditItem = (item: Item) => {
+  const handleEditItem = async (item: Item) => {
     setFormData({
       title: item.title,
       description: item.description || '',
       category: item.category,
       purchase_price: item.purchase_price.toString(),
-      location: item.location,
-      image_url: item.image_url || ''
+      location: item.location
     })
+    setPhotos([])
+    
+    // Load existing photos
+    const photoResult = await getItemPhotos(item.id)
+    if (photoResult.success && photoResult.photos) {
+      setExistingPhotos(photoResult.photos)
+    } else {
+      setExistingPhotos([])
+    }
+    
     setEditingItem(item)
     setShowAddDialog(true)
+  }
+
+  const handleRemoveExistingPhoto = async (photoId: string, photoUrl: string) => {
+    try {
+      const result = await deletePhoto(photoId, photoUrl)
+      if (result.success) {
+        // Remove from local state
+        setExistingPhotos(prev => prev.filter(photo => photo.id !== photoId))
+      } else {
+        console.error('Failed to delete photo:', result.error)
+      }
+    } catch (error) {
+      console.error('Error deleting photo:', error)
+    }
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -110,6 +138,7 @@ export default function MyItemsPage() {
     if (!user) return
 
     setSubmitting(true)
+    setIsUploading(true)
     try {
       const purchasePrice = parseFloat(formData.purchase_price)
       const tier = calculateItemTier(purchasePrice)
@@ -120,7 +149,7 @@ export default function MyItemsPage() {
         category: formData.category,
         purchase_price: purchasePrice,
         location: formData.location,
-        image_url: formData.image_url || null,
+        image_url: null, // Will be populated from first photo
         tier,
         owner_id: user.id
       }
@@ -132,12 +161,54 @@ export default function MyItemsPage() {
           .eq('id', editingItem.id)
 
         if (error) throw error
+
+        // Upload new photos if any
+        if (photos.length > 0) {
+          const photoResult = await uploadMultiplePhotos(photos, editingItem.id)
+          if (!photoResult.success) {
+            console.error('Photo upload failed:', photoResult.error)
+          }
+        }
+        
+        // Update item with first available photo URL for backward compatibility
+        const allPhotosResult = await getItemPhotos(editingItem.id)
+        if (allPhotosResult.success && allPhotosResult.photos && allPhotosResult.photos.length > 0) {
+          await supabase
+            .from('items')
+            .update({ image_url: allPhotosResult.photos[0].photo_url })
+            .eq('id', editingItem.id)
+        } else {
+          // No photos left, clear image_url
+          await supabase
+            .from('items')
+            .update({ image_url: null })
+            .eq('id', editingItem.id)
+        }
       } else {
-        const { error } = await supabase
+        const { data, error } = await supabase
           .from('items')
           .insert([itemData])
+          .select()
 
         if (error) throw error
+
+        const newItem = data[0]
+
+        // Upload photos if any
+        if (photos.length > 0) {
+          const photoResult = await uploadMultiplePhotos(photos, newItem.id)
+          if (!photoResult.success) {
+            console.error('Photo upload failed:', photoResult.error)
+          } else {
+            // Update item with first photo URL for backward compatibility
+            if (photoResult.photos && photoResult.photos.length > 0) {
+              await supabase
+                .from('items')
+                .update({ image_url: photoResult.photos[0].photo_url })
+                .eq('id', newItem.id)
+            }
+          }
+        }
       }
 
       fetchItems()
@@ -148,6 +219,7 @@ export default function MyItemsPage() {
       alert(t('myItems.failedToSave'))
     } finally {
       setSubmitting(false)
+      setIsUploading(false)
     }
   }
 
@@ -272,15 +344,14 @@ export default function MyItemsPage() {
                 />
               </div>
               
-              <div className="space-y-2">
-                <Label htmlFor="image_url">Image URL (Optional)</Label>
-                <Input
-                  id="image_url"
-                  type="url"
-                  value={formData.image_url}
-                  onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
-                />
-              </div>
+              <PhotoUpload
+                photos={photos}
+                onPhotosChange={setPhotos}
+                existingPhotos={existingPhotos}
+                onExistingPhotoRemove={handleRemoveExistingPhoto}
+                maxPhotos={5}
+                className="space-y-2"
+              />
               
               {formData.purchase_price && (
                 <div className="flex items-center space-x-2">
@@ -298,8 +369,8 @@ export default function MyItemsPage() {
                 >
                   Cancel
                 </Button>
-                <Button type="submit" disabled={submitting} className="flex-1">
-                  {submitting ? 'Saving...' : editingItem ? 'Update' : 'Add Item'}
+                <Button type="submit" disabled={submitting || isUploading} className="flex-1">
+                  {isUploading ? 'Uploading photos...' : submitting ? 'Saving...' : editingItem ? 'Update' : 'Add Item'}
                 </Button>
               </div>
             </form>
