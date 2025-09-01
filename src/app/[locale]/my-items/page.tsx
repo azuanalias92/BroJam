@@ -1,0 +1,388 @@
+'use client'
+
+import { useEffect, useState } from 'react'
+import { useAuth } from '@/contexts/AuthContext'
+import { supabase } from '@/lib/supabase'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Textarea } from '@/components/ui/textarea'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
+import { Badge } from '@/components/ui/badge'
+import { ItemTierBadge } from '@/components/tiers/ItemTierBadge'
+import { calculateItemTier } from '@/lib/tiers'
+import { Plus, Edit, Trash2 } from 'lucide-react'
+import { Database } from '@/lib/supabase'
+import Image from 'next/image'
+
+type Item = Database['public']['Tables']['items']['Row']
+
+const CATEGORIES = [
+  'Electronics',
+  'Tools',
+  'Sports',
+  'Books',
+  'Clothing',
+  'Home & Garden',
+  'Automotive',
+  'Music',
+  'Art',
+  'Other'
+]
+
+export default function MyItemsPage() {
+  const { user } = useAuth()
+  const [items, setItems] = useState<Item[]>([])
+  const [loading, setLoading] = useState(true)
+  const [showAddDialog, setShowAddDialog] = useState(false)
+  const [editingItem, setEditingItem] = useState<Item | null>(null)
+  const [formData, setFormData] = useState({
+    title: '',
+    description: '',
+    category: '',
+    purchase_price: '',
+    location: '',
+    image_url: ''
+  })
+  const [submitting, setSubmitting] = useState(false)
+
+  useEffect(() => {
+    if (user) {
+      fetchItems()
+    }
+  }, [user])
+
+  const fetchItems = async () => {
+    if (!user) return
+
+    try {
+      const { data, error } = await supabase
+        .from('items')
+        .select('*')
+        .eq('owner_id', user.id)
+        .order('created_at', { ascending: false })
+
+      if (error) throw error
+      setItems(data || [])
+    } catch (error) {
+      console.error('Error fetching items:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const resetForm = () => {
+    setFormData({
+      title: '',
+      description: '',
+      category: '',
+      purchase_price: '',
+      location: '',
+      image_url: ''
+    })
+    setEditingItem(null)
+  }
+
+  const handleAddItem = () => {
+    resetForm()
+    setShowAddDialog(true)
+  }
+
+  const handleEditItem = (item: Item) => {
+    setFormData({
+      title: item.title,
+      description: item.description || '',
+      category: item.category,
+      purchase_price: item.purchase_price.toString(),
+      location: item.location,
+      image_url: item.image_url || ''
+    })
+    setEditingItem(item)
+    setShowAddDialog(true)
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!user) return
+
+    setSubmitting(true)
+    try {
+      const purchasePrice = parseFloat(formData.purchase_price)
+      const tier = calculateItemTier(purchasePrice)
+
+      const itemData = {
+        title: formData.title,
+        description: formData.description || null,
+        category: formData.category,
+        purchase_price: purchasePrice,
+        location: formData.location,
+        image_url: formData.image_url || null,
+        tier,
+        owner_id: user.id
+      }
+
+      if (editingItem) {
+        const { error } = await supabase
+          .from('items')
+          .update(itemData)
+          .eq('id', editingItem.id)
+
+        if (error) throw error
+      } else {
+        const { error } = await supabase
+          .from('items')
+          .insert([itemData])
+
+        if (error) throw error
+      }
+
+      fetchItems()
+      setShowAddDialog(false)
+      resetForm()
+    } catch (error: any) {
+      console.error('Error saving item:', error)
+      alert('Failed to save item. Please try again.')
+    } finally {
+      setSubmitting(false)
+    }
+  }
+
+  const handleDeleteItem = async (itemId: string) => {
+    if (!confirm('Are you sure you want to delete this item?')) return
+
+    try {
+      const { error } = await supabase
+        .from('items')
+        .delete()
+        .eq('id', itemId)
+
+      if (error) throw error
+      fetchItems()
+    } catch (error: any) {
+      console.error('Error deleting item:', error)
+      alert('Failed to delete item. Please try again.')
+    }
+  }
+
+  if (!user) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold mb-4">Please sign in to manage your items</h1>
+        </div>
+      </div>
+    )
+  }
+
+  if (loading) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <div className="text-center">
+          <p>Loading your items...</p>
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <div className="container mx-auto px-4 py-8">
+      <div className="flex justify-between items-center mb-8">
+        <h1 className="text-3xl font-bold">My Items</h1>
+        <Dialog open={showAddDialog} onOpenChange={setShowAddDialog}>
+          <DialogTrigger asChild>
+            <Button onClick={handleAddItem}>
+              <Plus className="h-4 w-4 mr-2" />
+              Add Item
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-md">
+            <DialogHeader>
+              <DialogTitle>
+                {editingItem ? 'Edit Item' : 'Add New Item'}
+              </DialogTitle>
+            </DialogHeader>
+            
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="title">Title *</Label>
+                <Input
+                  id="title"
+                  value={formData.title}
+                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                  required
+                />
+              </div>
+              
+              <div className="space-y-2">
+                <Label htmlFor="description">Description</Label>
+                <Textarea
+                  id="description"
+                  value={formData.description}
+                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                  rows={3}
+                />
+              </div>
+              
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label>Category *</Label>
+                  <Select
+                    value={formData.category}
+                    onValueChange={(value) => setFormData({ ...formData, category: value })}
+                    required
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select category" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {CATEGORIES.map((category) => (
+                        <SelectItem key={category} value={category}>
+                          {category}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                
+                <div className="space-y-2">
+                  <Label htmlFor="price">Purchase Price *</Label>
+                  <Input
+                    id="price"
+                    type="number"
+                    step="0.01"
+                    min="0"
+                    value={formData.purchase_price}
+                    onChange={(e) => setFormData({ ...formData, purchase_price: e.target.value })}
+                    required
+                  />
+                </div>
+              </div>
+              
+              <div className="space-y-2">
+                <Label htmlFor="location">Location *</Label>
+                <Input
+                  id="location"
+                  value={formData.location}
+                  onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+                  required
+                />
+              </div>
+              
+              <div className="space-y-2">
+                <Label htmlFor="image_url">Image URL (Optional)</Label>
+                <Input
+                  id="image_url"
+                  type="url"
+                  value={formData.image_url}
+                  onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
+                />
+              </div>
+              
+              {formData.purchase_price && (
+                <div className="flex items-center space-x-2">
+                  <span className="text-sm">Item Tier:</span>
+                  <ItemTierBadge tier={calculateItemTier(parseFloat(formData.purchase_price))} />
+                </div>
+              )}
+              
+              <div className="flex space-x-2 pt-4">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => setShowAddDialog(false)}
+                  className="flex-1"
+                >
+                  Cancel
+                </Button>
+                <Button type="submit" disabled={submitting} className="flex-1">
+                  {submitting ? 'Saving...' : editingItem ? 'Update' : 'Add Item'}
+                </Button>
+              </div>
+            </form>
+          </DialogContent>
+        </Dialog>
+      </div>
+      
+      {items.length === 0 ? (
+        <Card>
+          <CardContent className="p-8 text-center">
+            <div className="space-y-4">
+              <div className="text-4xl">📦</div>
+              <h3 className="text-lg font-semibold">No items yet</h3>
+              <p className="text-gray-600">Add your first item to start lending!</p>
+              <Button onClick={handleAddItem}>
+                <Plus className="h-4 w-4 mr-2" />
+                Add Your First Item
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {items.map((item) => (
+            <Card key={item.id} className="overflow-hidden">
+              <CardHeader className="p-0">
+                <div className="relative h-48 bg-gray-200">
+                  {item.image_url ? (
+                    <Image
+                      src={item.image_url}
+                      alt={item.title}
+                      fill
+                      className="object-cover"
+                    />
+                  ) : (
+                    <div className="flex items-center justify-center h-full text-gray-400">
+                      <span className="text-4xl">📦</span>
+                    </div>
+                  )}
+                  <div className="absolute top-2 right-2">
+                    <ItemTierBadge tier={item.tier} />
+                  </div>
+                </div>
+              </CardHeader>
+              
+              <CardContent className="p-4">
+                <div className="space-y-2">
+                  <CardTitle className="text-lg">{item.title}</CardTitle>
+                  <p className="text-sm text-gray-600 line-clamp-2">{item.description}</p>
+                  
+                  <div className="flex items-center justify-between">
+                    <Badge variant="secondary">{item.category}</Badge>
+                    <span className="font-bold">${item.purchase_price}</span>
+                  </div>
+                  
+                  <div className="text-xs text-gray-500">
+                    📍 {item.location}
+                  </div>
+                  
+                  <div className="flex space-x-2 pt-2">
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => handleEditItem(item)}
+                      className="flex-1"
+                    >
+                      <Edit className="h-3 w-3 mr-1" />
+                      Edit
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => handleDeleteItem(item.id)}
+                      className="flex-1 text-red-600 hover:text-red-700"
+                    >
+                      <Trash2 className="h-3 w-3 mr-1" />
+                      Delete
+                    </Button>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}

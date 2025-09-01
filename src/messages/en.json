@@ -1,0 +1,71 @@
+{
+  "home": {
+    "hero": {
+      "badge": "New Platform",
+      "title": "Welcome to BroJam",
+      "subtitle": "Connect, Share, and Jam with Your Bros",
+      "getStarted": "Get Started",
+      "browseMarketplace": "Browse Marketplace",
+      "myDashboard": "My Dashboard",
+      "exploreItems": "Explore Items"
+    },
+    "features": {
+      "title": "Why Choose BroJam?",
+      "subtitle": "Discover what makes our platform special",
+      "communityDriven": {
+        "title": "Community Driven",
+        "description": "Built by the community, for the community. Every feature is designed with your needs in mind."
+      },
+      "trustSafety": {
+        "title": "Trust & Safety",
+        "description": "Advanced verification systems and community moderation ensure a safe environment for everyone."
+      },
+      "sustainable": {
+        "title": "Sustainable",
+        "description": "Promote reuse and reduce waste by giving items a second life in our marketplace."
+      },
+      "tierSystem": {
+        "title": "Tier System",
+        "description": "Earn rewards and unlock exclusive features as you contribute to the community."
+      },
+      "easyToUse": {
+        "title": "Easy to Use",
+        "description": "Intuitive interface designed for seamless browsing, listing, and connecting with others."
+      },
+      "giveBack": {
+        "title": "Give Back",
+        "description": "Support local communities and charities through our integrated giving programs."
+      }
+    },
+    "howItWorks": {
+      "title": "How It Works",
+      "subtitle": "Getting started is simple and straightforward",
+      "step1": {
+        "title": "Sign Up",
+        "description": "Create your account and join our growing community of bros."
+      },
+      "step2": {
+        "title": "List or Browse",
+        "description": "Post items you want to share or browse what others have available."
+      },
+      "step3": {
+        "title": "Connect & Jam",
+        "description": "Meet up with fellow bros and make meaningful connections."
+      }
+    },
+    "cta": {
+      "title": "Ready to Join the Jam?",
+      "subtitle": "Start connecting with your community today",
+      "joinNow": "Join Now",
+      "joinToday": "Join Today",
+      "learnMore": "Learn More"
+    }
+  },
+  "notFound": {
+    "title": "Page Not Found",
+    "subtitle": "Sorry, we couldn't find the page you're looking for.",
+    "description": "The page you requested might have been moved, deleted, or you entered the wrong URL.",
+    "goHome": "Go Home",
+    "goBack": "Go Back"
+  }
+}

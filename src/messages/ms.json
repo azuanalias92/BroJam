@@ -1,0 +1,71 @@
+{
+  "home": {
+    "hero": {
+      "badge": "Platform Baharu",
+      "title": "Selamat Datang ke BroJam",
+      "subtitle": "Berhubung, Berkongsi, dan Jam dengan Kawan-kawan",
+      "getStarted": "Mula Sekarang",
+      "browseMarketplace": "Layari Pasaran",
+      "myDashboard": "Papan Pemuka Saya",
+      "exploreItems": "Terokai Barangan"
+    },
+    "features": {
+      "title": "Mengapa Pilih BroJam?",
+      "subtitle": "Temui apa yang menjadikan platform kami istimewa",
+      "communityDriven": {
+        "title": "Didorong Komuniti",
+        "description": "Dibina oleh komuniti, untuk komuniti. Setiap ciri direka dengan keperluan anda dalam fikiran."
+      },
+      "trustSafety": {
+        "title": "Kepercayaan & Keselamatan",
+        "description": "Sistem pengesahan canggih dan moderasi komuniti memastikan persekitaran yang selamat untuk semua."
+      },
+      "sustainable": {
+        "title": "Mampan",
+        "description": "Galakkan penggunaan semula dan kurangkan sisa dengan memberi kehidupan kedua kepada barangan di pasaran kami."
+      },
+      "tierSystem": {
+        "title": "Sistem Peringkat",
+        "description": "Dapatkan ganjaran dan buka kunci ciri eksklusif semasa anda menyumbang kepada komuniti."
+      },
+      "easyToUse": {
+        "title": "Mudah Digunakan",
+        "description": "Antara muka intuitif yang direka untuk pelayaran, penyenaraian, dan sambungan yang lancar dengan orang lain."
+      },
+      "giveBack": {
+        "title": "Memberi Kembali",
+        "description": "Sokong komuniti tempatan dan badan amal melalui program pemberian bersepadu kami."
+      }
+    },
+    "howItWorks": {
+      "title": "Bagaimana Ia Berfungsi",
+      "subtitle": "Memulakan adalah mudah dan terus ke hadapan",
+      "step1": {
+        "title": "Daftar",
+        "description": "Cipta akaun anda dan sertai komuniti kawan-kawan yang semakin berkembang."
+      },
+      "step2": {
+        "title": "Senarai atau Layari",
+        "description": "Siarkan barangan yang ingin anda kongsi atau layari apa yang ada pada orang lain."
+      },
+      "step3": {
+        "title": "Berhubung & Jam",
+        "description": "Bertemu dengan kawan-kawan dan buat sambungan yang bermakna."
+      }
+    },
+    "cta": {
+      "title": "Bersedia untuk Sertai Jam?",
+      "subtitle": "Mula berhubung dengan komuniti anda hari ini",
+      "joinNow": "Sertai Sekarang",
+      "joinToday": "Sertai Hari Ini",
+      "learnMore": "Ketahui Lebih Lanjut"
+    }
+  },
+  "notFound": {
+    "title": "Halaman Tidak Dijumpai",
+    "subtitle": "Maaf, kami tidak dapat mencari halaman yang anda cari.",
+    "description": "Halaman yang anda minta mungkin telah dipindahkan, dipadam, atau anda memasukkan URL yang salah.",
+    "goHome": "Ke Laman Utama",
+    "goBack": "Kembali"
+  }
+}

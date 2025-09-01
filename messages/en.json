@@ -1,0 +1,168 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "add": "Add",
+    "search": "Search",
+    "filter": "Filter",
+    "clear": "Clear",
+    "submit": "Submit",
+    "close": "Close",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "yes": "Yes",
+    "no": "No"
+  },
+  "nav": {
+    "marketplace": "Marketplace",
+    "myItems": "My Items",
+    "requests": "Requests",
+    "dashboard": "Dashboard",
+    "profile": "Profile",
+    "signOut": "Sign Out",
+    "signIn": "Sign In",
+    "getStarted": "Get Started"
+  },
+  "home": {
+    "hero": {
+      "badge": "🌟 Welcome to the Future of Sharing",
+      "title": "BroJam",
+      "subtitle": "The peer-to-peer platform where neighbors become friends through sharing. Lend what you have, borrow what you need.",
+      "browseMarketplace": "Browse Marketplace",
+      "myDashboard": "My Dashboard",
+      "getStarted": "Get Started",
+      "exploreItems": "Explore Items"
+    },
+    "features": {
+      "title": "Why Choose BroJam?",
+      "subtitle": "Join a community built on trust, sustainability, and mutual support",
+      "communityDriven": {
+        "title": "Community Driven",
+        "description": "Connect with neighbors and build lasting relationships through sharing"
+      },
+      "trustSafety": {
+        "title": "Trust & Safety",
+        "description": "Advanced tier system and reputation scores ensure reliable transactions"
+      },
+      "sustainable": {
+        "title": "Sustainable Living",
+        "description": "Reduce waste and environmental impact by sharing resources"
+      },
+      "tierSystem": {
+        "title": "Tier System",
+        "description": "Earn rewards and unlock benefits as you contribute to the community"
+      },
+      "easyToUse": {
+        "title": "Easy to Use",
+        "description": "Simple, intuitive interface makes lending and borrowing effortless"
+      },
+      "giveBack": {
+        "title": "Give Back",
+        "description": "Help others while decluttering your space and earning community points"
+      }
+    },
+    "howItWorks": {
+      "title": "How It Works",
+      "subtitle": "Getting started is simple and takes just a few minutes",
+      "step1": {
+        "title": "Sign Up & Verify",
+        "description": "Create your account and verify your identity to join our trusted community"
+      },
+      "step2": {
+        "title": "List or Browse",
+        "description": "Add items you want to lend or browse what's available in your area"
+      },
+      "step3": {
+        "title": "Connect & Share",
+        "description": "Send requests, arrange pickup, and start building community connections"
+      }
+    },
+    "cta": {
+      "title": "Ready to Start Sharing?",
+      "subtitle": "Join thousands of neighbors who are already building stronger communities through sharing",
+      "joinToday": "Join BroJam Today"
+    }
+  },
+  "marketplace": {
+    "title": "Marketplace",
+    "searchPlaceholder": "Search items...",
+    "category": "Category",
+    "allCategories": "All Categories",
+    "itemTier": "Item Tier",
+    "allTiers": "All Tiers",
+    "location": "Location",
+    "priceRange": "Price Range",
+    "noItems": "No items found",
+    "requestToBorrow": "Request to Borrow",
+    "ownedByYou": "Owned by You"
+  },
+  "requests": {
+    "title": "Borrowing Requests",
+    "incoming": "Incoming",
+    "outgoing": "Outgoing",
+    "noRequests": "No requests found",
+    "status": {
+      "pending": "Pending",
+      "approved": "Approved",
+      "rejected": "Rejected",
+      "completed": "Completed"
+    },
+    "approve": "Approve",
+    "reject": "Reject",
+    "markComplete": "Mark Complete"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Welcome back",
+    "stats": {
+      "itemsLent": "Items Lent",
+      "itemsBorrowed": "Items Borrowed",
+      "reputationScore": "Reputation Score"
+    },
+    "recentActivity": "Recent Activity",
+    "yourItems": "Your Items",
+    "noActivity": "No recent activity",
+    "noItems": "No items yet"
+  },
+  "myItems": {
+    "title": "My Items",
+    "addItem": "Add New Item",
+    "noItems": "You haven't added any items yet",
+    "itemTitle": "Item Title",
+    "description": "Description",
+    "category": "Category",
+    "purchasePrice": "Purchase Price",
+    "location": "Location",
+    "imageUrl": "Image URL",
+    "addItemSuccess": "Item added successfully!",
+    "deleteItemSuccess": "Item deleted successfully!"
+  },
+  "tiers": {
+    "bronze": "Bronze",
+    "silver": "Silver",
+    "gold": "Gold",
+    "platinum": "Platinum",
+    "currentTier": "Current Tier",
+    "progress": "Progress to next tier",
+    "benefits": "Benefits"
+  },
+  "auth": {
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "email": "Email",
+    "password": "Password",
+    "fullName": "Full Name",
+    "signInWithEmail": "Sign in with Email",
+    "signUpWithEmail": "Sign up with Email",
+    "alreadyHaveAccount": "Already have an account?",
+    "dontHaveAccount": "Don't have an account?",
+    "signInError": "Error signing in",
+    "signUpError": "Error signing up"
+  }
+}

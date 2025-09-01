@@ -1,0 +1,168 @@
+{
+  "common": {
+    "loading": "Memuatkan...",
+    "error": "Ralat",
+    "success": "Berjaya",
+    "cancel": "Batal",
+    "save": "Simpan",
+    "delete": "Padam",
+    "edit": "Edit",
+    "add": "Tambah",
+    "search": "Cari",
+    "filter": "Tapis",
+    "clear": "Kosongkan",
+    "submit": "Hantar",
+    "close": "Tutup",
+    "back": "Kembali",
+    "next": "Seterusnya",
+    "previous": "Sebelumnya",
+    "yes": "Ya",
+    "no": "Tidak"
+  },
+  "nav": {
+    "marketplace": "Pasar",
+    "myItems": "Barang Saya",
+    "requests": "Permintaan",
+    "dashboard": "Papan Pemuka",
+    "profile": "Profil",
+    "signOut": "Log Keluar",
+    "signIn": "Log Masuk",
+    "getStarted": "Mula Sekarang"
+  },
+  "home": {
+    "hero": {
+      "badge": "🌟 Selamat Datang ke Masa Depan Perkongsian",
+      "title": "BroJam",
+      "subtitle": "Platform peer-to-peer di mana jiran menjadi kawan melalui perkongsian. Pinjamkan apa yang anda ada, pinjam apa yang anda perlukan.",
+      "browseMarketplace": "Jelajah Pasar",
+      "myDashboard": "Papan Pemuka Saya",
+      "getStarted": "Mula Sekarang",
+      "exploreItems": "Terokai Barang"
+    },
+    "features": {
+      "title": "Mengapa Pilih BroJam?",
+      "subtitle": "Sertai komuniti yang dibina atas kepercayaan, kemampanan, dan sokongan bersama",
+      "communityDriven": {
+        "title": "Didorong Komuniti",
+        "description": "Berhubung dengan jiran dan membina hubungan yang berkekalan melalui perkongsian"
+      },
+      "trustSafety": {
+        "title": "Kepercayaan & Keselamatan",
+        "description": "Sistem peringkat lanjutan dan skor reputasi memastikan transaksi yang boleh dipercayai"
+      },
+      "sustainable": {
+        "title": "Kehidupan Mampan",
+        "description": "Kurangkan pembaziran dan kesan alam sekitar dengan berkongsi sumber"
+      },
+      "tierSystem": {
+        "title": "Sistem Peringkat",
+        "description": "Dapatkan ganjaran dan buka faedah semasa anda menyumbang kepada komuniti"
+      },
+      "easyToUse": {
+        "title": "Mudah Digunakan",
+        "description": "Antara muka yang mudah dan intuitif menjadikan peminjaman mudah"
+      },
+      "giveBack": {
+        "title": "Memberi Kembali",
+        "description": "Bantu orang lain sambil mengosongkan ruang anda dan memperoleh mata komuniti"
+      }
+    },
+    "howItWorks": {
+      "title": "Bagaimana Ia Berfungsi",
+      "subtitle": "Memulakan adalah mudah dan hanya mengambil masa beberapa minit",
+      "step1": {
+        "title": "Daftar & Sahkan",
+        "description": "Cipta akaun anda dan sahkan identiti anda untuk menyertai komuniti yang dipercayai"
+      },
+      "step2": {
+        "title": "Senarai atau Jelajah",
+        "description": "Tambah barang yang ingin anda pinjamkan atau jelajah apa yang tersedia di kawasan anda"
+      },
+      "step3": {
+        "title": "Berhubung & Berkongsi",
+        "description": "Hantar permintaan, atur pengambilan, dan mula membina hubungan komuniti"
+      }
+    },
+    "cta": {
+      "title": "Bersedia untuk Mula Berkongsi?",
+      "subtitle": "Sertai ribuan jiran yang sudah membina komuniti yang lebih kuat melalui perkongsian",
+      "joinToday": "Sertai BroJam Hari Ini"
+    }
+  },
+  "marketplace": {
+    "title": "Pasar",
+    "searchPlaceholder": "Cari barang...",
+    "category": "Kategori",
+    "allCategories": "Semua Kategori",
+    "itemTier": "Peringkat Barang",
+    "allTiers": "Semua Peringkat",
+    "location": "Lokasi",
+    "priceRange": "Julat Harga",
+    "noItems": "Tiada barang dijumpai",
+    "requestToBorrow": "Minta untuk Meminjam",
+    "ownedByYou": "Dimiliki oleh Anda"
+  },
+  "requests": {
+    "title": "Permintaan Peminjaman",
+    "incoming": "Masuk",
+    "outgoing": "Keluar",
+    "noRequests": "Tiada permintaan dijumpai",
+    "status": {
+      "pending": "Menunggu",
+      "approved": "Diluluskan",
+      "rejected": "Ditolak",
+      "completed": "Selesai"
+    },
+    "approve": "Luluskan",
+    "reject": "Tolak",
+    "markComplete": "Tandakan Selesai"
+  },
+  "dashboard": {
+    "title": "Papan Pemuka",
+    "welcome": "Selamat kembali",
+    "stats": {
+      "itemsLent": "Barang Dipinjamkan",
+      "itemsBorrowed": "Barang Dipinjam",
+      "reputationScore": "Skor Reputasi"
+    },
+    "recentActivity": "Aktiviti Terkini",
+    "yourItems": "Barang Anda",
+    "noActivity": "Tiada aktiviti terkini",
+    "noItems": "Belum ada barang lagi"
+  },
+  "myItems": {
+    "title": "Barang Saya",
+    "addItem": "Tambah Barang Baru",
+    "noItems": "Anda belum menambah sebarang barang lagi",
+    "itemTitle": "Tajuk Barang",
+    "description": "Penerangan",
+    "category": "Kategori",
+    "purchasePrice": "Harga Pembelian",
+    "location": "Lokasi",
+    "imageUrl": "URL Imej",
+    "addItemSuccess": "Barang berjaya ditambah!",
+    "deleteItemSuccess": "Barang berjaya dipadam!"
+  },
+  "tiers": {
+    "bronze": "Gangsa",
+    "silver": "Perak",
+    "gold": "Emas",
+    "platinum": "Platinum",
+    "currentTier": "Peringkat Semasa",
+    "progress": "Kemajuan ke peringkat seterusnya",
+    "benefits": "Faedah"
+  },
+  "auth": {
+    "signIn": "Log Masuk",
+    "signUp": "Daftar",
+    "email": "Emel",
+    "password": "Kata Laluan",
+    "fullName": "Nama Penuh",
+    "signInWithEmail": "Log masuk dengan Emel",
+    "signUpWithEmail": "Daftar dengan Emel",
+    "alreadyHaveAccount": "Sudah ada akaun?",
+    "dontHaveAccount": "Belum ada akaun?",
+    "signInError": "Ralat log masuk",
+    "signUpError": "Ralat mendaftar"
+  }
+}
