@@ -83,9 +83,9 @@ export function SearchFilters({
   const hasActiveFilters = searchQuery || selectedCategory || selectedTier || locationFilter || priceRange.min || priceRange.max
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-sm border space-y-4">
+    <div className="bg-white p-4 sm:p-6 rounded-lg shadow-sm border space-y-4">
       {/* Search Bar */}
-      <form onSubmit={handleSearch} className="flex gap-2">
+      <form onSubmit={handleSearch} className="flex flex-col sm:flex-row gap-2">
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
           <Input
@@ -93,22 +93,23 @@ export function SearchFilters({
             placeholder="Search items..."
             value={localSearchQuery}
             onChange={(e) => setLocalSearchQuery(e.target.value)}
-            className="pl-10"
+            className="pl-10 h-11 text-base touch-manipulation"
           />
         </div>
-        <Button type="submit">
+        <Button type="submit" className="h-11 touch-manipulation">
           <Search className="mr-2 h-4 w-4" />
-          Search
+          <span className="hidden sm:inline">Search</span>
+          <span className="sm:hidden">Go</span>
         </Button>
       </form>
 
       {/* Filters Row */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         {/* Category Filter */}
         <div className="space-y-2">
           <label className="text-sm font-medium">Category</label>
           <Select value={selectedCategory || ''} onValueChange={(value) => onCategoryFilter(value || null)}>
-            <SelectTrigger>
+            <SelectTrigger className="h-11 touch-manipulation">
               <SelectValue placeholder="All categories" />
             </SelectTrigger>
             <SelectContent>
@@ -126,7 +127,7 @@ export function SearchFilters({
         <div className="space-y-2">
           <label className="text-sm font-medium">Item Tier</label>
           <Select value={selectedTier || ''} onValueChange={(value) => onTierFilter(value || null)}>
-            <SelectTrigger>
+            <SelectTrigger className="h-11 touch-manipulation">
               <SelectValue placeholder="All tiers" />
             </SelectTrigger>
             <SelectContent>
@@ -143,14 +144,15 @@ export function SearchFilters({
         {/* Location Filter */}
         <div className="space-y-2">
           <label className="text-sm font-medium">Location</label>
-          <div className="flex gap-2">
+          <div className="flex flex-col sm:flex-row gap-2">
             <Input
               type="text"
               placeholder="Enter location..."
               value={localLocation}
               onChange={(e) => setLocalLocation(e.target.value)}
+              className="h-11 text-base touch-manipulation flex-1"
             />
-            <Button variant="outline" onClick={handleLocationSearch}>
+            <Button variant="outline" onClick={handleLocationSearch} className="h-11 touch-manipulation sm:w-auto">
               Apply
             </Button>
           </div>
@@ -159,23 +161,25 @@ export function SearchFilters({
         {/* Price Range Filter */}
         <div className="space-y-2">
           <label className="text-sm font-medium">Price Range</label>
-          <div className="flex gap-2">
-            <Input
-              type="number"
-              placeholder="Min"
-              value={minPrice}
-              onChange={(e) => setMinPrice(e.target.value)}
-              className="w-20"
-            />
-            <span className="self-center">-</span>
-            <Input
-              type="number"
-              placeholder="Max"
-              value={maxPrice}
-              onChange={(e) => setMaxPrice(e.target.value)}
-              className="w-20"
-            />
-            <Button variant="outline" onClick={handlePriceFilter}>
+          <div className="flex flex-col sm:flex-row gap-2">
+            <div className="flex gap-2 flex-1">
+              <Input
+                type="number"
+                placeholder="Min"
+                value={minPrice}
+                onChange={(e) => setMinPrice(e.target.value)}
+                className="h-11 text-base touch-manipulation flex-1 min-w-0"
+              />
+              <span className="self-center text-sm">-</span>
+              <Input
+                type="number"
+                placeholder="Max"
+                value={maxPrice}
+                onChange={(e) => setMaxPrice(e.target.value)}
+                className="h-11 text-base touch-manipulation flex-1 min-w-0"
+              />
+            </div>
+            <Button variant="outline" onClick={handlePriceFilter} className="h-11 touch-manipulation sm:w-auto">
               Apply
             </Button>
           </div>

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabase'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -15,12 +16,13 @@ interface AuthFormProps {
 }
 
 export function AuthForm({ mode, onToggleMode }: AuthFormProps) {
+  const router = useRouter()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [fullName, setFullName] = useState('')
   const [loading, setLoading] = useState(false)
-  const [message, setMessage] = useState('')
   const [error, setError] = useState('')
+  const [message, setMessage] = useState('')
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -49,6 +51,9 @@ export function AuthForm({ mode, onToggleMode }: AuthFormProps) {
         })
 
         if (error) throw error
+        
+        // Redirect to dashboard after successful sign-in
+        router.push('/en/dashboard')
       }
     } catch (error: any) {
       setError(error.message)
@@ -73,15 +78,15 @@ export function AuthForm({ mode, onToggleMode }: AuthFormProps) {
 
   return (
     <Card className="w-full max-w-md mx-auto">
-      <CardHeader>
-        <CardTitle>{mode === 'signin' ? 'Sign In' : 'Sign Up'}</CardTitle>
-        <CardDescription>
+      <CardHeader className="pb-4">
+        <CardTitle className="text-xl sm:text-2xl text-center">{mode === 'signin' ? 'Sign In' : 'Sign Up'}</CardTitle>
+        <CardDescription className="text-center text-sm sm:text-base">
           {mode === 'signin'
             ? 'Welcome back to BroJam Marketplace'
             : 'Create your BroJam account'}
         </CardDescription>
       </CardHeader>
-      <CardContent className="space-y-4">
+      <CardContent className="space-y-4 p-4 sm:p-6">
         {error && (
           <Alert variant="destructive">
             <AlertDescription>{error}</AlertDescription>
@@ -97,30 +102,35 @@ export function AuthForm({ mode, onToggleMode }: AuthFormProps) {
         <form onSubmit={handleSubmit} className="space-y-4">
           {mode === 'signup' && (
             <div className="space-y-2">
-              <Label htmlFor="fullName">Full Name</Label>
+              <Label htmlFor="fullName" className="text-sm font-medium">Full Name</Label>
               <Input
                 id="fullName"
                 type="text"
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
                 required
+                className="h-12 text-base touch-manipulation"
+                placeholder="Enter your full name"
               />
             </div>
           )}
           
           <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email" className="text-sm font-medium">Email</Label>
             <Input
               id="email"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
+              className="h-12 text-base touch-manipulation"
+              placeholder="Enter your email"
+              autoComplete="email"
             />
           </div>
           
           <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
+            <Label htmlFor="password" className="text-sm font-medium">Password</Label>
             <Input
               id="password"
               type="password"
@@ -128,10 +138,13 @@ export function AuthForm({ mode, onToggleMode }: AuthFormProps) {
               onChange={(e) => setPassword(e.target.value)}
               required
               minLength={6}
+              className="h-12 text-base touch-manipulation"
+              placeholder="Enter your password (min 6 characters)"
+              autoComplete={mode === 'signin' ? 'current-password' : 'new-password'}
             />
           </div>
           
-          <Button type="submit" className="w-full" disabled={loading}>
+          <Button type="submit" className="w-full h-12 text-base touch-manipulation" disabled={loading}>
             {loading ? (
               'Loading...'
             ) : mode === 'signin' ? (
@@ -160,20 +173,20 @@ export function AuthForm({ mode, onToggleMode }: AuthFormProps) {
         <Button
           type="button"
           variant="outline"
-          className="w-full"
+          className="w-full h-12 text-base touch-manipulation"
           onClick={handleGoogleSignIn}
         >
           <Mail className="mr-2 h-4 w-4" />
-          Google
+          Continue with Google
         </Button>
 
-        <div className="text-center text-sm">
+        <div className="text-center text-sm sm:text-base">
           {mode === 'signin' ? (
             <>
               Don't have an account?{' '}
               <button
                 type="button"
-                className="text-primary hover:underline"
+                className="text-primary hover:underline font-medium touch-manipulation p-1"
                 onClick={onToggleMode}
               >
                 Sign up
@@ -184,7 +197,7 @@ export function AuthForm({ mode, onToggleMode }: AuthFormProps) {
               Already have an account?{' '}
               <button
                 type="button"
-                className="text-primary hover:underline"
+                className="text-primary hover:underline font-medium touch-manipulation p-1"
                 onClick={onToggleMode}
               >
                 Sign in

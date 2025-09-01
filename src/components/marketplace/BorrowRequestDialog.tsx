@@ -76,42 +76,44 @@ export function BorrowRequestDialog({ item, owner, open, onOpenChange }: BorrowR
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-md max-w-[95vw] mx-4">
         <DialogHeader>
-          <DialogTitle>Request to Borrow</DialogTitle>
-          <DialogDescription>
+          <DialogTitle className="text-lg sm:text-xl">Request to Borrow</DialogTitle>
+          <DialogDescription className="text-sm">
             Send a request to borrow "{item.title}" from {owner.full_name}
           </DialogDescription>
         </DialogHeader>
         
         <div className="space-y-4">
           {/* Item Info */}
-          <div className="bg-gray-50 p-4 rounded-lg">
-            <div className="flex justify-between items-start">
-              <div>
-                <h4 className="font-medium">{item.title}</h4>
-                <p className="text-sm text-gray-600">{item.category}</p>
-                <p className="text-sm font-medium">${item.purchase_price}</p>
+          <div className="bg-gray-50 p-3 sm:p-4 rounded-lg">
+            <div className="flex justify-between items-start gap-2">
+              <div className="min-w-0 flex-1">
+                <h4 className="font-medium text-sm sm:text-base truncate">{item.title}</h4>
+                <p className="text-xs sm:text-sm text-gray-600">{item.category}</p>
+                <p className="text-xs sm:text-sm font-medium">${item.purchase_price}</p>
               </div>
               <ItemTierBadge tier={item.tier} />
             </div>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
               <div className="space-y-2">
-                <Label>Start Date</Label>
+                <Label className="text-sm font-medium">Start Date</Label>
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button
                       variant="outline"
-                      className="w-full justify-start text-left font-normal"
+                      className="w-full justify-start text-left font-normal h-11 text-sm touch-manipulation"
                     >
-                      <CalendarIcon className="mr-2 h-4 w-4" />
-                      {startDate ? format(startDate, 'PPP') : 'Pick a date'}
+                      <CalendarIcon className="mr-2 h-4 w-4 flex-shrink-0" />
+                      <span className="truncate">
+                        {startDate ? format(startDate, 'MMM dd, yyyy') : 'Pick a date'}
+                      </span>
                     </Button>
                   </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0">
+                  <PopoverContent className="w-auto p-0" align="start">
                     <Calendar
                       mode="single"
                       selected={startDate}
@@ -124,18 +126,20 @@ export function BorrowRequestDialog({ item, owner, open, onOpenChange }: BorrowR
               </div>
               
               <div className="space-y-2">
-                <Label>End Date</Label>
+                <Label className="text-sm font-medium">End Date</Label>
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button
                       variant="outline"
-                      className="w-full justify-start text-left font-normal"
+                      className="w-full justify-start text-left font-normal h-11 text-sm touch-manipulation"
                     >
-                      <CalendarIcon className="mr-2 h-4 w-4" />
-                      {endDate ? format(endDate, 'PPP') : 'Pick a date'}
+                      <CalendarIcon className="mr-2 h-4 w-4 flex-shrink-0" />
+                      <span className="truncate">
+                        {endDate ? format(endDate, 'MMM dd, yyyy') : 'Pick a date'}
+                      </span>
                     </Button>
                   </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0">
+                  <PopoverContent className="w-auto p-0" align="start">
                     <Calendar
                       mode="single"
                       selected={endDate}
@@ -149,27 +153,30 @@ export function BorrowRequestDialog({ item, owner, open, onOpenChange }: BorrowR
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="message">Message (Optional)</Label>
+              <Label htmlFor="message" className="text-sm font-medium">Message (Optional)</Label>
               <Textarea
                 id="message"
                 placeholder="Tell the owner why you need this item..."
                 value={message}
                 onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setMessage(e.target.value)}
                 rows={3}
+                className="text-base resize-none touch-manipulation"
               />
             </div>
 
-            <DialogFooter>
+            <DialogFooter className="flex-col sm:flex-row gap-2 sm:gap-0">
               <Button
                 type="button"
                 variant="outline"
                 onClick={() => onOpenChange(false)}
+                className="w-full sm:w-auto h-11 touch-manipulation"
               >
                 Cancel
               </Button>
               <Button
                 type="submit"
                 disabled={!startDate || !endDate || loading}
+                className="w-full sm:w-auto h-11 touch-manipulation"
               >
                 {loading ? 'Sending...' : 'Send Request'}
               </Button>

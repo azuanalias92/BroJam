@@ -7,11 +7,15 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
 import { TIER_COLORS, TIER_BENEFITS } from "@/lib/tiers";
-import { LogIn, UserPlus, User, Settings, LogOut, Store } from "lucide-react";
+import { LogIn, UserPlus, User, Settings, LogOut, Store, Menu, X } from "lucide-react";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import { useLocale } from "@/contexts/TranslationContext";
+import { useState } from "react";
 
 export function Navbar() {
   const { user, profile, signOut } = useAuth();
+  const locale = useLocale();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
     <nav className="border-b bg-white">
@@ -20,9 +24,10 @@ export function Navbar() {
           <div className="flex items-center">
             <Link href="/" className="flex-shrink-0 flex items-center space-x-2">
               <Store className="h-8 w-8 text-primary" />
-              <h1 className="text-2xl font-bold text-primary">BroJam</h1>
+              <h1 className="text-xl sm:text-2xl font-bold text-primary">BroJam</h1>
             </Link>
 
+            {/* Desktop Navigation */}
             {user && (
               <div className="hidden md:ml-6 md:flex md:space-x-8">
                 <Link href="/marketplace" className="text-gray-900 hover:text-gray-700 px-3 py-2 text-sm font-medium">
@@ -38,7 +43,8 @@ export function Navbar() {
             )}
           </div>
 
-          <div className="flex items-center space-x-4">
+          {/* Desktop Right Side */}
+          <div className="hidden md:flex items-center space-x-4">
             <LanguageSwitcher />
             {user ? (
               <>
@@ -68,7 +74,7 @@ export function Navbar() {
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
-                      <Link href="/profile" className="flex items-center">
+                      <Link href={`/${locale}/profile`} className="flex items-center">
                         <Settings className="mr-2 h-4 w-4" />
                         Profile
                       </Link>
@@ -83,13 +89,13 @@ export function Navbar() {
               </>
             ) : (
               <div className="flex items-center space-x-2">
-                <Button variant="ghost" asChild>
+                <Button variant="ghost" asChild size="sm">
                   <Link href="/auth">
                     <LogIn className="mr-2 h-4 w-4" />
                     Sign In
                   </Link>
                 </Button>
-                <Button asChild>
+                <Button asChild size="sm">
                   <Link href="/auth">
                     <UserPlus className="mr-2 h-4 w-4" />
                     Get Started
@@ -98,7 +104,122 @@ export function Navbar() {
               </div>
             )}
           </div>
+
+          {/* Mobile Menu Button */}
+          <div className="md:hidden flex items-center space-x-2">
+            <LanguageSwitcher />
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="p-2"
+            >
+              {isMobileMenuOpen ? (
+                <X className="h-6 w-6" />
+              ) : (
+                <Menu className="h-6 w-6" />
+              )}
+            </Button>
+          </div>
         </div>
+
+        {/* Mobile Menu */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden border-t bg-white">
+            <div className="px-2 pt-2 pb-3 space-y-1">
+              {user ? (
+                <>
+                  {/* User Info */}
+                  <div className="flex items-center space-x-3 px-3 py-3 border-b">
+                    <Avatar className="h-10 w-10">
+                      <AvatarImage src={profile?.avatar_url || ""} alt={profile?.full_name || ""} />
+                      <AvatarFallback>{profile?.full_name?.charAt(0) || user.email?.charAt(0) || "U"}</AvatarFallback>
+                    </Avatar>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-gray-900 truncate">
+                        {profile?.full_name || "User"}
+                      </p>
+                      <p className="text-xs text-gray-500 truncate">{user.email}</p>
+                      {profile && (
+                        <Badge className={`${TIER_COLORS[profile.tier]} text-xs mt-1`}>
+                          {TIER_BENEFITS[profile.tier].name}
+                        </Badge>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Navigation Links */}
+                  <Link
+                    href="/marketplace"
+                    className="block px-3 py-3 text-base font-medium text-gray-900 hover:bg-gray-50 rounded-md"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    Marketplace
+                  </Link>
+                  <Link
+                    href="/my-items"
+                    className="block px-3 py-3 text-base font-medium text-gray-900 hover:bg-gray-50 rounded-md"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    My Items
+                  </Link>
+                  <Link
+                    href="/requests"
+                    className="block px-3 py-3 text-base font-medium text-gray-900 hover:bg-gray-50 rounded-md"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    Requests
+                  </Link>
+                  <Link
+                    href="/dashboard"
+                    className="flex items-center px-3 py-3 text-base font-medium text-gray-900 hover:bg-gray-50 rounded-md"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    <User className="mr-3 h-5 w-5" />
+                    Dashboard
+                  </Link>
+                  <Link
+                    href={`/${locale}/profile`}
+                    className="flex items-center px-3 py-3 text-base font-medium text-gray-900 hover:bg-gray-50 rounded-md"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    <Settings className="mr-3 h-5 w-5" />
+                    Profile
+                  </Link>
+                  <button
+                    onClick={() => {
+                      signOut();
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className="flex items-center w-full px-3 py-3 text-base font-medium text-gray-900 hover:bg-gray-50 rounded-md"
+                  >
+                    <LogOut className="mr-3 h-5 w-5" />
+                    Sign out
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link
+                    href="/auth"
+                    className="flex items-center px-3 py-3 text-base font-medium text-gray-900 hover:bg-gray-50 rounded-md"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    <LogIn className="mr-3 h-5 w-5" />
+                    Sign In
+                  </Link>
+                  <Link
+                    href="/auth"
+                    className="flex items-center px-3 py-3 text-base font-medium text-primary hover:bg-gray-50 rounded-md"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    <UserPlus className="mr-3 h-5 w-5" />
+                    Get Started
+                  </Link>
+                </>
+              )}
+            </div>
+          </div>
+        )}
       </div>
     </nav>
   );
