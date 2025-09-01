@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Alert, AlertDescription } from '@/components/ui/alert'
+import { LogIn, UserPlus, Mail } from 'lucide-react'
 
 interface AuthFormProps {
   mode: 'signin' | 'signup'
@@ -131,7 +132,19 @@ export function AuthForm({ mode, onToggleMode }: AuthFormProps) {
           </div>
           
           <Button type="submit" className="w-full" disabled={loading}>
-            {loading ? 'Loading...' : mode === 'signin' ? 'Sign In' : 'Sign Up'}
+            {loading ? (
+              'Loading...'
+            ) : mode === 'signin' ? (
+              <>
+                <LogIn className="mr-2 h-4 w-4" />
+                Sign In
+              </>
+            ) : (
+              <>
+                <UserPlus className="mr-2 h-4 w-4" />
+                Sign Up
+              </>
+            )}
           </Button>
         </form>
 
@@ -150,6 +163,7 @@ export function AuthForm({ mode, onToggleMode }: AuthFormProps) {
           className="w-full"
           onClick={handleGoogleSignIn}
         >
+          <Mail className="mr-2 h-4 w-4" />
           Google
         </Button>
 

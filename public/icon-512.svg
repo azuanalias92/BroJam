@@ -1,0 +1,18 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="512" height="512" rx="96" fill="#2563eb"/>
+  <g transform="translate(86, 86)">
+    <!-- Marketplace/sharing icon -->
+    <rect x="50" y="50" width="240" height="160" rx="20" fill="white" stroke="#2563eb" stroke-width="6"/>
+    <rect x="80" y="80" width="180" height="20" fill="#2563eb"/>
+    <rect x="80" y="120" width="180" height="20" fill="#2563eb"/>
+    <rect x="80" y="160" width="130" height="20" fill="#2563eb"/>
+    
+    <!-- Connection/community symbol -->
+    <circle cx="110" cy="270" r="32" fill="#fbbf24"/>
+    <circle cx="230" cy="270" r="32" fill="#fbbf24"/>
+    <path d="M142 270 L198 270" stroke="#fbbf24" stroke-width="12" stroke-linecap="round"/>
+    
+    <!-- BroJam text representation -->
+    <text x="170" y="330" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="42" font-weight="bold">BroJam</text>
+  </g>
+</svg>

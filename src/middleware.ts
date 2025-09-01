@@ -1,20 +1,43 @@
-import createMiddleware from 'next-intl/middleware';
+import { NextRequest, NextResponse } from 'next/server';
 
-export default createMiddleware({
-  // A list of all locales that are supported
-  locales: ['en', 'ms'],
+const locales = ['en', 'ms'];
+const defaultLocale = 'en';
 
-  // Used when no locale matches
-  defaultLocale: 'en',
+export function middleware(request: NextRequest) {
+  const pathname = request.nextUrl.pathname;
+  
+  // Check if there is any supported locale in the pathname
+  const pathnameIsMissingLocale = locales.every(
+    (locale) => !pathname.startsWith(`/${locale}/`) && pathname !== `/${locale}`
+  );
 
-  // Redirect to default locale when no locale is detected
-  localeDetection: true,
+  // Redirect if there is no locale
+  if (pathnameIsMissingLocale) {
+    // Get locale from Accept-Language header or use default
+    const locale = getLocale(request) || defaultLocale;
+    
+    return NextResponse.redirect(
+      new URL(`/${locale}${pathname.startsWith('/') ? '' : '/'}${pathname}`, request.url)
+    );
+  }
+}
 
-  // Prefix strategy for locale routing
-  localePrefix: 'always' // Always add locale prefix to URLs
-});
+function getLocale(request: NextRequest): string {
+  // Simple locale detection from Accept-Language header
+  const acceptLanguage = request.headers.get('accept-language');
+  
+  if (acceptLanguage) {
+    for (const locale of locales) {
+      if (acceptLanguage.includes(locale)) {
+        return locale;
+      }
+    }
+  }
+  
+  return defaultLocale;
+}
 
 export const config = {
   // Match only internationalized pathnames
-  matcher: ['/', '/(ms|en)/:path*']
+  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)']
 };

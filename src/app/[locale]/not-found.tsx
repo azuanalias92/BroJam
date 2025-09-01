@@ -1,11 +1,13 @@
+'use client';
+
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Home, ArrowLeft, Search } from 'lucide-react'
-import { getTranslations } from 'next-intl/server'
+import { useTranslations } from '@/contexts/TranslationContext'
 
-export default async function LocaleNotFound() {
-  const t = await getTranslations('notFound')
+export default function LocaleNotFound() {
+  const { t } = useTranslations('notFound')
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4 bg-gradient-to-br from-primary/5 via-background to-secondary/5">

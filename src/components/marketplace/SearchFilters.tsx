@@ -96,7 +96,10 @@ export function SearchFilters({
             className="pl-10"
           />
         </div>
-        <Button type="submit">Search</Button>
+        <Button type="submit">
+          <Search className="mr-2 h-4 w-4" />
+          Search
+        </Button>
       </form>
 
       {/* Filters Row */}

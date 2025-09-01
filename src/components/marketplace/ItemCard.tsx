@@ -10,6 +10,7 @@ import { ItemTierBadge } from '@/components/tiers/ItemTierBadge'
 import { TIER_COLORS } from '@/lib/tiers'
 import { Database } from '@/lib/supabase'
 import { BorrowRequestDialog } from './BorrowRequestDialog'
+import { HandHeart, Lock, User } from 'lucide-react'
 
 type Item = Database['public']['Tables']['items']['Row']
 type User = Database['public']['Tables']['users']['Row']
@@ -80,6 +81,7 @@ export function ItemCard({ item, owner, canBorrow, currentUserId }: ItemCardProp
         <CardFooter className="p-4 pt-0">
           {isOwner ? (
             <Button variant="outline" className="w-full" disabled>
+              <User className="mr-2 h-4 w-4" />
               Your Item
             </Button>
           ) : canBorrow ? (
@@ -87,10 +89,12 @@ export function ItemCard({ item, owner, canBorrow, currentUserId }: ItemCardProp
               className="w-full" 
               onClick={() => setShowBorrowDialog(true)}
             >
+              <HandHeart className="mr-2 h-4 w-4" />
               Request to Borrow
             </Button>
           ) : (
             <Button variant="outline" className="w-full" disabled>
+              <Lock className="mr-2 h-4 w-4" />
               Tier Required: {item.tier}
             </Button>
           )}

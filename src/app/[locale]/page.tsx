@@ -1,3 +1,5 @@
+'use client';
+
 import {
   Card,
   CardContent,
@@ -7,12 +9,12 @@ import {
 } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Users, Shield, Star, Zap, Heart, Recycle } from 'lucide-react';
-import { getTranslations } from 'next-intl/server';
+import { useTranslations } from '@/contexts/TranslationContext';
 import { HomeClient } from './HomeClient';
 import { CTAClient } from './CTAClient';
 
-export default async function Home() {
-  const t = await getTranslations('home');
+export default function Home() {
+  const { t } = useTranslations('home');
 
   return (
     <div className="min-h-screen">
@@ -20,13 +22,13 @@ export default async function Home() {
       <section className="relative py-20 px-4 text-center bg-gradient-to-br from-primary/10 via-background to-secondary/10">
         <div className="max-w-4xl mx-auto">
           <Badge variant="secondary" className="mb-4">
-            {t('home.hero.badge')}
+            {t('hero.badge')}
           </Badge>
           <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
-            {t('home.hero.title')}
+            {t('hero.title')}
           </h1>
           <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-            {t('home.hero.subtitle')}
+            {t('hero.subtitle')}
           </p>
           <HomeClient />
         </div>
@@ -37,10 +39,10 @@ export default async function Home() {
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              {t('home.features.title')}
+              {t('features.title')}
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              {t('home.features.subtitle')}
+              {t('features.subtitle')}
             </p>
           </div>
 
@@ -51,12 +53,12 @@ export default async function Home() {
                   <Users className="h-6 w-6 text-primary" />
                 </div>
                 <CardTitle>
-                  {t('home.features.communityDriven.title')}
+                  {t('features.communityDriven.title')}
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <CardDescription className="text-base">
-                  {t('home.features.communityDriven.description')}
+                  {t('features.communityDriven.description')}
                 </CardDescription>
               </CardContent>
             </Card>
@@ -66,11 +68,11 @@ export default async function Home() {
                 <div className="mx-auto w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-4">
                   <Shield className="h-6 w-6 text-primary" />
                 </div>
-                <CardTitle>{t('home.features.trustSafety.title')}</CardTitle>
+                <CardTitle>{t('features.trustSafety.title')}</CardTitle>
               </CardHeader>
               <CardContent>
                 <CardDescription className="text-base">
-                  {t('home.features.trustSafety.description')}
+                  {t('features.trustSafety.description')}
                 </CardDescription>
               </CardContent>
             </Card>
@@ -80,11 +82,11 @@ export default async function Home() {
                 <div className="mx-auto w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-4">
                   <Recycle className="h-6 w-6 text-primary" />
                 </div>
-                <CardTitle>{t('home.features.sustainable.title')}</CardTitle>
+                <CardTitle>{t('features.sustainable.title')}</CardTitle>
               </CardHeader>
               <CardContent>
                 <CardDescription className="text-base">
-                  {t('home.features.sustainable.description')}
+                  {t('features.sustainable.description')}
                 </CardDescription>
               </CardContent>
             </Card>
@@ -94,11 +96,11 @@ export default async function Home() {
                 <div className="mx-auto w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-4">
                   <Star className="h-6 w-6 text-primary" />
                 </div>
-                <CardTitle>{t('home.features.tierSystem.title')}</CardTitle>
+                <CardTitle>{t('features.tierSystem.title')}</CardTitle>
               </CardHeader>
               <CardContent>
                 <CardDescription className="text-base">
-                  {t('home.features.tierSystem.description')}
+                  {t('features.tierSystem.description')}
                 </CardDescription>
               </CardContent>
             </Card>
@@ -108,11 +110,11 @@ export default async function Home() {
                 <div className="mx-auto w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-4">
                   <Zap className="h-6 w-6 text-primary" />
                 </div>
-                <CardTitle>{t('home.features.easyToUse.title')}</CardTitle>
+                <CardTitle>{t('features.easyToUse.title')}</CardTitle>
               </CardHeader>
               <CardContent>
                 <CardDescription className="text-base">
-                  {t('home.features.easyToUse.description')}
+                  {t('features.easyToUse.description')}
                 </CardDescription>
               </CardContent>
             </Card>
@@ -122,11 +124,11 @@ export default async function Home() {
                 <div className="mx-auto w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-4">
                   <Heart className="h-6 w-6 text-primary" />
                 </div>
-                <CardTitle>{t('home.features.giveBack.title')}</CardTitle>
+                <CardTitle>{t('features.giveBack.title')}</CardTitle>
               </CardHeader>
               <CardContent>
                 <CardDescription className="text-base">
-                  {t('home.features.giveBack.description')}
+                  {t('features.giveBack.description')}
                 </CardDescription>
               </CardContent>
             </Card>
@@ -138,10 +140,10 @@ export default async function Home() {
       <section className="py-20 px-4 bg-muted/30">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            {t('home.howItWorks.title')}
+            {t('howItWorks.title')}
           </h2>
           <p className="text-xl text-muted-foreground mb-16">
-            {t('home.howItWorks.subtitle')}
+            {t('howItWorks.subtitle')}
           </p>
 
           <div className="grid md:grid-cols-3 gap-8">
@@ -150,10 +152,10 @@ export default async function Home() {
                 1
               </div>
               <h3 className="text-xl font-semibold">
-                {t('home.howItWorks.step1.title')}
+                {t('howItWorks.step1.title')}
               </h3>
               <p className="text-muted-foreground">
-                {t('home.howItWorks.step1.description')}
+                {t('howItWorks.step1.description')}
               </p>
             </div>
 
@@ -162,10 +164,10 @@ export default async function Home() {
                 2
               </div>
               <h3 className="text-xl font-semibold">
-                {t('home.howItWorks.step2.title')}
+                {t('howItWorks.step2.title')}
               </h3>
               <p className="text-muted-foreground">
-                {t('home.howItWorks.step2.description')}
+                {t('howItWorks.step2.description')}
               </p>
             </div>
 
@@ -174,10 +176,10 @@ export default async function Home() {
                 3
               </div>
               <h3 className="text-xl font-semibold">
-                {t('home.howItWorks.step3.title')}
+                {t('howItWorks.step3.title')}
               </h3>
               <p className="text-muted-foreground">
-                {t('home.howItWorks.step3.description')}
+                {t('howItWorks.step3.description')}
               </p>
             </div>
           </div>
@@ -188,10 +190,10 @@ export default async function Home() {
       <section className="py-20 px-4 text-center">
         <div className="max-w-2xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            {t('home.cta.title')}
+            {t('cta.title')}
           </h2>
           <p className="text-xl text-muted-foreground mb-8">
-            {t('home.cta.subtitle')}
+            {t('cta.subtitle')}
           </p>
           <CTAClient />
         </div>
