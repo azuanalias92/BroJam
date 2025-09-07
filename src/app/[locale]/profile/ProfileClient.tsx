@@ -16,7 +16,7 @@ import { supabase } from "@/lib/supabase";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 
 export function ProfileClient() {
-  const { user, profile, refreshProfile } = useAuth();
+  const { user, profile, refreshProfile, loading: authLoading } = useAuth();
   const t = useTranslations();
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
@@ -161,6 +161,16 @@ export function ProfileClient() {
     }
     setIsEditing(false);
   };
+
+  if (authLoading) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <div className="flex items-center justify-center min-h-[400px]">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+        </div>
+      </div>
+    );
+  }
 
   if (!user || !profile) {
     return (

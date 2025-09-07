@@ -48,6 +48,7 @@
     "marketplace": "Pasar",
     "myItems": "Barang Saya",
     "requests": "Permintaan",
+    "chat": "Mesej",
     "dashboard": "Papan Pemuka",
     "profile": "Profil",
     "signOut": "Log Keluar",
@@ -116,6 +117,7 @@
   },
   "marketplace": {
     "title": "Pasar",
+    "subtitle": "Temui barang yang tersedia untuk dipinjam",
     "searchPlaceholder": "Cari item...",
     "search": "Cari",
     "category": "Kategori",
@@ -141,7 +143,8 @@
     "messagePlaceholder": "Beritahu pemilik mengapa anda memerlukan barang ini...",
     "sending": "Menghantar...",
     "sendRequest": "Hantar Permintaan",
-    "cancel": "Batal"
+    "cancel": "Batal",
+    "listItem": "Daftar Barang"
   },
   "requests": {
     "title": "Permintaan Peminjaman",
@@ -193,13 +196,13 @@
     "welcome": "Selamat kembali",
     "welcomeBack": "Selamat kembali",
     "totalItems": "Jumlah Barang",
-    "itemsAvailable": "Barang tersedia untuk dipinjam",
+    "itemsAvailable": "barang tersedia untuk dipinjam",
     "activeRequests": "Permintaan Aktif",
-    "pendingApproved": "Permintaan dalam proses dan diluluskan",
+    "pendingApproved": "dalam proses dan diluluskan",
     "completedLends": "Pinjaman Selesai",
-    "successfullyCompleted": "Berjaya diselesaikan",
+    "successfullyCompleted": "berjaya diselesaikan",
     "tierProgress": "Kemajuan Peringkat",
-    "currentTierStatus": "Status peringkat semasa",
+    "currentTierStatus": "status peringkat semasa",
     "pleaseSignIn": "Sila log masuk untuk melihat papan pemuka anda",
     "loadingDashboard": "Memuatkan papan pemuka...",
     "stats": {
@@ -210,7 +213,12 @@
     "recentActivity": "Aktiviti Terkini",
     "yourItems": "Barang Anda",
     "noActivity": "Tiada aktiviti terkini",
-    "noItems": "Belum ada barang lagi"
+    "noItems": "Belum ada barang lagi",
+    "recentRequests": "Permintaan Terkini",
+    "myItems": "Barang Saya",
+    "noRequestsYet": "Tiada permintaan lagi",
+    "noItemsAddedYet": "Belum ada barang ditambah lagi",
+    "wantsToBorrow": "ingin meminjam"
   },
   "myItems": {
     "title": "Barang Saya",

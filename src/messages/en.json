@@ -48,6 +48,7 @@
     "marketplace": "Marketplace",
     "myItems": "My Items",
     "requests": "Requests",
+    "chat": "Messages",
     "dashboard": "Dashboard",
     "profile": "Profile",
     "signOut": "Sign Out",
@@ -197,6 +198,17 @@
   },
   "dashboard": {
     "title": "Dashboard",
+    "welcomeBack": "Welcome back",
+    "totalItems": "Total Items",
+    "itemsAvailable": "items available for lending",
+    "activeRequests": "Active Requests",
+    "pendingApproved": "pending and approved",
+    "completedLends": "Completed Lends",
+    "successfullyCompleted": "successfully completed",
+    "tierProgress": "Tier Progress",
+    "currentTierStatus": "current tier status",
+    "pleaseSignIn": "Please sign in to view your dashboard",
+    "loadingDashboard": "Loading dashboard...",
     "welcome": "Welcome back",
     "stats": {
       "itemsLent": "Items Lent",
@@ -206,7 +218,12 @@
     "recentActivity": "Recent Activity",
     "yourItems": "Your Items",
     "noActivity": "No recent activity",
-    "noItems": "No items yet"
+    "noItems": "No items yet",
+    "recentRequests": "Recent Requests",
+    "myItems": "My Items",
+    "noRequestsYet": "No requests yet",
+    "noItemsAddedYet": "No items added yet",
+    "wantsToBorrow": "wants to borrow"
   },
   "myItems": {
     "title": "My Items",

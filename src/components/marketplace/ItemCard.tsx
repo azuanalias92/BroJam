@@ -57,7 +57,7 @@ export function ItemCard({ item, owner, canBorrow, currentUserId }: ItemCardProp
             <p className="text-xs sm:text-sm text-gray-600 line-clamp-2 leading-relaxed">{item.description}</p>
             
             <div className="flex items-center justify-between gap-2">
-              <Badge variant="secondary" className="text-xs px-2 py-1 truncate flex-shrink-0">{t(`categories.${item.category.toLowerCase()}`)}</Badge>
+              <Badge variant="secondary" className="text-xs px-2 py-1 truncate flex-shrink-0">{t(`common.categories.${item.category.toLowerCase()}`)}</Badge>
               <span className="text-base sm:text-lg font-bold text-right">${item.purchase_price}</span>
             </div>
             

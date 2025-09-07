@@ -11,8 +11,11 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ItemTierBadge } from "@/components/tiers/ItemTierBadge";
 import { format } from "date-fns";
 import { Database } from "@/lib/supabase";
-import { CheckCircle, XCircle, Clock } from "lucide-react";
+import { CheckCircle, XCircle, Clock, MessageCircle } from "lucide-react";
 import { useTranslations } from "@/contexts/TranslationContext";
+import { createOrGetConversation } from "@/lib/chat";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/contexts/AuthContext";
 
 type BorrowRequest = Database["public"]["Tables"]["borrow_requests"]["Row"];
 type Item = Database["public"]["Tables"]["items"]["Row"];
@@ -33,8 +36,11 @@ interface RequestApprovalDialogProps {
 
 export function RequestApprovalDialog({ request, open, onOpenChange, onUpdate }: RequestApprovalDialogProps) {
   const t = useTranslations();
+  const router = useRouter();
+  const { user } = useAuth();
   const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState("");
+  const [chatLoading, setChatLoading] = useState(false);
 
   const handleApproval = async (approved: boolean) => {
     setLoading(true);
@@ -58,6 +64,38 @@ export function RequestApprovalDialog({ request, open, onOpenChange, onUpdate }:
       alert("Failed to update request. Please try again.");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleStartChat = async () => {
+    if (!user) return;
+    
+    setChatLoading(true);
+    
+    try {
+      const otherUserId = request.borrower_id === user.id ? request.owner_id : request.borrower_id;
+      
+      const { data: conversation, error } = await createOrGetConversation(
+        user.id,
+        otherUserId,
+        request.id
+      );
+      
+      if (error) {
+        console.error('Error creating conversation:', error);
+        alert('Failed to start chat. Please try again.');
+        return;
+      }
+      
+      if (conversation) {
+        onOpenChange(false);
+        router.push(`/chat/${conversation.id}`);
+      }
+    } catch (error) {
+      console.error('Error starting chat:', error);
+      alert('Failed to start chat. Please try again.');
+    } finally {
+      setChatLoading(false);
     }
   };
 
@@ -206,8 +244,21 @@ export function RequestApprovalDialog({ request, open, onOpenChange, onUpdate }:
           )}
 
           {request.status === "approved" && (
-            <Button onClick={handleComplete} disabled={loading} className="w-full">
-              {loading ? t('common.processing') : t('requests.markAsComplete')}
+            <div className="flex space-x-2 w-full">
+              <Button onClick={handleComplete} disabled={loading} className="flex-1">
+                {loading ? t('common.processing') : t('requests.markAsComplete')}
+              </Button>
+              <Button variant="outline" onClick={handleStartChat} disabled={chatLoading} className="flex-1">
+                <MessageCircle className="h-4 w-4 mr-2" />
+                {chatLoading ? 'Starting...' : 'Start Chat'}
+              </Button>
+            </div>
+          )}
+
+          {(request.status === "completed" || request.status === "active") && (
+            <Button variant="outline" onClick={handleStartChat} disabled={chatLoading} className="w-full">
+              <MessageCircle className="h-4 w-4 mr-2" />
+              {chatLoading ? 'Starting...' : 'Message'}
             </Button>
           )}
 

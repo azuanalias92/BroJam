@@ -13,6 +13,9 @@ import { ItemTierBadge } from '@/components/tiers/ItemTierBadge'
 import { format } from 'date-fns'
 import { Database } from '@/lib/supabase'
 import { RequestApprovalDialog } from '@/components/requests/RequestApprovalDialog'
+import { createOrGetConversation } from '@/lib/chat'
+import { MessageCircle } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 
 type BorrowRequest = Database['public']['Tables']['borrow_requests']['Row']
 type Item = Database['public']['Tables']['items']['Row']
@@ -27,11 +30,13 @@ interface RequestWithDetails extends BorrowRequest {
 export default function RequestsPage() {
   const { user } = useAuth()
   const t = useTranslations();
+  const router = useRouter()
   const [incomingRequests, setIncomingRequests] = useState<RequestWithDetails[]>([])
   const [outgoingRequests, setOutgoingRequests] = useState<RequestWithDetails[]>([])
   const [loading, setLoading] = useState(true)
   const [selectedRequest, setSelectedRequest] = useState<RequestWithDetails | null>(null)
   const [showApprovalDialog, setShowApprovalDialog] = useState(false)
+  const [chatLoading, setChatLoading] = useState<string | null>(null)
 
   useEffect(() => {
     if (user) {
@@ -89,6 +94,37 @@ export default function RequestsPage() {
     fetchRequests()
     setShowApprovalDialog(false)
     setSelectedRequest(null)
+  }
+
+  const handleStartChat = async (request: RequestWithDetails) => {
+    if (!user) return
+    
+    setChatLoading(request.id)
+    
+    try {
+      const otherUserId = request.borrower_id === user.id ? request.owner_id : request.borrower_id
+      
+      const { data: conversation, error } = await createOrGetConversation(
+        user.id,
+        otherUserId,
+        request.id
+      )
+      
+      if (error) {
+        console.error('Error creating conversation:', error)
+        alert('Failed to start chat. Please try again.')
+        return
+      }
+      
+      if (conversation) {
+        router.push(`/chat/${conversation.id}`)
+      }
+    } catch (error) {
+      console.error('Error starting chat:', error)
+      alert('Failed to start chat. Please try again.')
+    } finally {
+      setChatLoading(null)
+    }
   }
 
   const getStatusColor = (status: string) => {
@@ -157,16 +193,28 @@ export default function RequestsPage() {
             {t('requests.requestedOn')} {format(new Date(request.created_at), 'PPP')}
           </div>
           
-          {isIncoming && request.status === 'pending' && (
-            <div className="flex space-x-2 pt-2">
+          <div className="flex space-x-2 pt-2">
+            {isIncoming && request.status === 'pending' && (
               <Button 
                 size="sm" 
                 onClick={() => handleApprovalAction(request)}
               >
                 {t('requests.reviewRequest')}
               </Button>
-            </div>
-          )}
+            )}
+            
+            {(request.status === 'approved' || request.status === 'active' || request.status === 'completed') && (
+              <Button 
+                size="sm" 
+                variant="outline"
+                onClick={() => handleStartChat(request)}
+                disabled={chatLoading === request.id}
+              >
+                <MessageCircle className="h-4 w-4 mr-2" />
+                {chatLoading === request.id ? 'Starting...' : 'Message'}
+              </Button>
+            )}
+          </div>
         </div>
       </CardContent>
     </Card>

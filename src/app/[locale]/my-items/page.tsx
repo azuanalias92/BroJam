@@ -36,7 +36,7 @@ const CATEGORIES = [
 ]
 
 export default function MyItemsPage() {
-  const { user } = useAuth()
+  const { user, loading: authLoading } = useAuth()
   const t = useTranslations();
   const [items, setItems] = useState<Item[]>([])
   const [loading, setLoading] = useState(true)
@@ -240,21 +240,21 @@ export default function MyItemsPage() {
     }
   }
 
-  if (!user) {
+  if (authLoading || loading) {
     return (
       <div className="container mx-auto px-4 py-8">
         <div className="text-center">
-          <h1 className="text-2xl font-bold mb-4">{t('myItems.pleaseSignIn')}</h1>
+          <p>{t('myItems.loadingItems')}</p>
         </div>
       </div>
     )
   }
 
-  if (loading) {
+  if (!user) {
     return (
       <div className="container mx-auto px-4 py-8">
         <div className="text-center">
-          <p>{t('myItems.loadingItems')}</p>
+          <h1 className="text-2xl font-bold mb-4">{t('myItems.pleaseSignIn')}</h1>
         </div>
       </div>
     )

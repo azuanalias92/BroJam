@@ -32,7 +32,7 @@ interface DashboardStats {
 }
 
 export default function DashboardPage() {
-  const { user, profile } = useAuth();
+  const { user, profile, loading: authLoading } = useAuth();
   const t = useTranslations();
   const [stats, setStats] = useState<DashboardStats>({
     totalItems: 0,
@@ -110,21 +110,21 @@ export default function DashboardPage() {
     }
   };
 
-  if (!user) {
+  if (authLoading || loading) {
     return (
       <div className="container mx-auto px-4 py-8">
         <div className="text-center">
-          <h1 className="text-2xl font-bold mb-4">{t("dashboard.pleaseSignIn")}</h1>
+          <p>{t("dashboard.loadingDashboard")}</p>
         </div>
       </div>
     );
   }
 
-  if (loading) {
+  if (!user) {
     return (
       <div className="container mx-auto px-4 py-8">
         <div className="text-center">
-          <p>{t("dashboard.loadingDashboard")}</p>
+          <h1 className="text-2xl font-bold mb-4">{t("dashboard.pleaseSignIn")}</h1>
         </div>
       </div>
     );
@@ -196,19 +196,19 @@ export default function DashboardPage() {
         <div className="lg:col-span-2">
           <Card>
             <CardHeader>
-              <CardTitle>Recent Activity</CardTitle>
+              <CardTitle>{t("dashboard.recentActivity")}</CardTitle>
             </CardHeader>
             <CardContent>
               <Tabs defaultValue="requests" className="w-full">
                 <TabsList className="grid w-full grid-cols-2">
-                  <TabsTrigger value="requests">Recent Requests</TabsTrigger>
-                  <TabsTrigger value="items">My Items</TabsTrigger>
+                  <TabsTrigger value="requests">{t("dashboard.recentRequests")}</TabsTrigger>
+                  <TabsTrigger value="items">{t("dashboard.myItems")}</TabsTrigger>
                 </TabsList>
 
                 <TabsContent value="requests" className="mt-4">
                   <div className="space-y-4">
                     {recentRequests.length === 0 ? (
-                      <p className="text-center text-gray-500 py-8">No requests yet</p>
+                      <p className="text-center text-gray-500 py-8">{t("dashboard.noRequestsYet")}</p>
                     ) : (
                       recentRequests.map((request) => (
                         <div key={request.id} className="flex items-center space-x-4 p-4 border rounded-lg">
@@ -222,7 +222,7 @@ export default function DashboardPage() {
                               <p className="text-sm font-medium truncate">{request.borrower.full_name}</p>
                               <Badge className={getStatusColor(request.status)}>{request.status}</Badge>
                             </div>
-                            <p className="text-sm text-gray-600 truncate">wants to borrow "{request.items.title}"</p>
+                            <p className="text-sm text-gray-600 truncate">{t("dashboard.wantsToBorrow")} "{request.items.title}"</p>
                             <p className="text-xs text-gray-500">{format(new Date(request.created_at), "MMM d, yyyy")}</p>
                           </div>
 
@@ -236,7 +236,7 @@ export default function DashboardPage() {
                 <TabsContent value="items" className="mt-4">
                   <div className="space-y-4">
                     {myItems.length === 0 ? (
-                      <p className="text-center text-gray-500 py-8">No items added yet</p>
+                      <p className="text-center text-gray-500 py-8">{t("dashboard.noItemsAddedYet")}</p>
                     ) : (
                       myItems.slice(0, 5).map((item) => (
                         <div key={item.id} className="flex items-center space-x-4 p-4 border rounded-lg">

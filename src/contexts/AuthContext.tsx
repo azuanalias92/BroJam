@@ -11,6 +11,7 @@ interface AuthContextType {
   user: User | null
   profile: UserProfile | null
   loading: boolean
+  error: string | null
   signOut: () => Promise<void>
   refreshProfile: () => Promise<void>
 }
@@ -21,6 +22,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
   const [profile, setProfile] = useState<UserProfile | null>(null)
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
   const fetchProfile = async (userId: string) => {
     try {
@@ -51,11 +53,22 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     // Get initial session
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    supabase.auth.getSession().then(({ data: { session }, error }) => {
+      if (error) {
+        console.error('Error getting session:', error)
+        setError(error.message)
+      } else {
+        setError(null)
+      }
+      
       setUser(session?.user ?? null)
       if (session?.user) {
         fetchProfile(session.user.id).then(setProfile)
       }
+      setLoading(false)
+    }).catch((err) => {
+      console.error('Session error:', err)
+      setError('Failed to authenticate')
       setLoading(false)
     })
 
@@ -63,16 +76,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange(async (event, session) => {
-      setUser(session?.user ?? null)
-      
-      if (session?.user) {
-        const profileData = await fetchProfile(session.user.id)
-        setProfile(profileData)
-      } else {
-        setProfile(null)
+      try {
+        setError(null)
+        setUser(session?.user ?? null)
+        
+        if (session?.user) {
+          const profileData = await fetchProfile(session.user.id)
+          setProfile(profileData)
+        } else {
+          setProfile(null)
+        }
+        
+        setLoading(false)
+      } catch (err) {
+        console.error('Auth state change error:', err)
+        setError('Authentication error occurred')
+        setLoading(false)
       }
-      
-      setLoading(false)
     })
 
     return () => subscription.unsubscribe()
@@ -88,6 +108,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     user,
     profile,
     loading,
+    error,
     signOut,
     refreshProfile,
   }
