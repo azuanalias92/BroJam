@@ -31,6 +31,8 @@ export type Database = {
           tier: 'bronze' | 'silver' | 'gold' | 'platinum'
           items_lent: number
           reputation_score: number
+          average_rating: number | null
+          total_ratings: number
           created_at: string
           updated_at: string
         }
@@ -42,6 +44,8 @@ export type Database = {
           tier?: 'bronze' | 'silver' | 'gold' | 'platinum'
           items_lent?: number
           reputation_score?: number
+          average_rating?: number | null
+          total_ratings?: number
           created_at?: string
           updated_at?: string
         }
@@ -53,6 +57,8 @@ export type Database = {
           tier?: 'bronze' | 'silver' | 'gold' | 'platinum'
           items_lent?: number
           reputation_score?: number
+          average_rating?: number | null
+          total_ratings?: number
           created_at?: string
           updated_at?: string
         }
@@ -135,6 +141,41 @@ export type Database = {
           start_date?: string
           end_date?: string
           message?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+      }
+      ratings: {
+        Row: {
+          id: string
+          request_id: string
+          rater_id: string
+          rated_user_id: string
+          rating: number
+          review: string | null
+          rating_type: 'borrower_to_lender' | 'lender_to_borrower'
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          request_id: string
+          rater_id: string
+          rated_user_id: string
+          rating: number
+          review?: string | null
+          rating_type: 'borrower_to_lender' | 'lender_to_borrower'
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          request_id?: string
+          rater_id?: string
+          rated_user_id?: string
+          rating?: number
+          review?: string | null
+          rating_type?: 'borrower_to_lender' | 'lender_to_borrower'
           created_at?: string
           updated_at?: string
         }

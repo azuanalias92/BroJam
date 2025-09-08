@@ -17,6 +17,18 @@ const nextConfig: NextConfig = {
         source: '/:locale/manifest.json',
         destination: '/manifest.json',
       },
+      {
+        source: '/:locale/favicon.svg',
+        destination: '/favicon.svg',
+      },
+      {
+        source: '/:locale/icon-192.svg',
+        destination: '/icon-192.svg',
+      },
+      {
+        source: '/:locale/icon-512.svg',
+        destination: '/icon-512.svg',
+      },
     ];
   },
 };

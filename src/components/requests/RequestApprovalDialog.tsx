@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -11,11 +11,13 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ItemTierBadge } from "@/components/tiers/ItemTierBadge";
 import { format } from "date-fns";
 import { Database } from "@/lib/supabase";
-import { CheckCircle, XCircle, Clock, MessageCircle } from "lucide-react";
+import { CheckCircle, XCircle, Clock, MessageCircle, Star } from "lucide-react";
 import { useTranslations } from "@/contexts/TranslationContext";
 import { createOrGetConversation } from "@/lib/chat";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/contexts/AuthContext";
+import { RatingModal } from "@/components/RatingModal";
+import { getPendingRatings, hasUserRated } from "@/lib/ratings";
 
 type BorrowRequest = Database["public"]["Tables"]["borrow_requests"]["Row"];
 type Item = Database["public"]["Tables"]["items"]["Row"];
@@ -41,6 +43,9 @@ export function RequestApprovalDialog({ request, open, onOpenChange, onUpdate }:
   const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState("");
   const [chatLoading, setChatLoading] = useState(false);
+  const [showRatingModal, setShowRatingModal] = useState(false);
+  const [hasRated, setHasRated] = useState(false);
+  const [checkingRating, setCheckingRating] = useState(false);
 
   const handleApproval = async (approved: boolean) => {
     setLoading(true);
@@ -113,7 +118,8 @@ export function RequestApprovalDialog({ request, open, onOpenChange, onUpdate }:
       if (error) throw error;
 
       onUpdate();
-      onOpenChange(false);
+      // Don't close dialog immediately - show rating option
+      checkUserRatingStatus();
     } catch (error: any) {
       console.error("Error completing request:", error);
       alert("Failed to complete request. Please try again.");
@@ -121,6 +127,37 @@ export function RequestApprovalDialog({ request, open, onOpenChange, onUpdate }:
       setLoading(false);
     }
   };
+
+  const checkUserRatingStatus = async () => {
+    if (!user || request.status !== 'completed') return;
+    
+    setCheckingRating(true);
+    try {
+      const userHasRated = await hasUserRated(request.id, user.id);
+      setHasRated(userHasRated);
+    } catch (error) {
+      console.error('Error checking rating status:', error);
+    } finally {
+      setCheckingRating(false);
+    }
+  };
+
+  const handleRateUser = () => {
+    setShowRatingModal(true);
+  };
+
+  const handleRatingSubmitted = () => {
+    setHasRated(true);
+    setShowRatingModal(false);
+    onUpdate();
+  };
+
+  // Check rating status when dialog opens for completed requests
+  useEffect(() => {
+    if (open && request.status === 'completed') {
+      checkUserRatingStatus();
+    }
+  }, [open, request.status]);
 
   const getStatusIcon = (status: string) => {
     switch (status) {
@@ -255,7 +292,27 @@ export function RequestApprovalDialog({ request, open, onOpenChange, onUpdate }:
             </div>
           )}
 
-          {(request.status === "completed" || request.status === "active") && (
+          {request.status === "completed" && (
+            <div className="flex flex-col space-y-2 w-full">
+              {!hasRated && !checkingRating && (
+                <Button onClick={handleRateUser} className="w-full">
+                  <Star className="h-4 w-4 mr-2" />
+                  {user?.id === request.borrower_id ? 'Rate Lender' : 'Rate Borrower'}
+                </Button>
+              )}
+              {hasRated && (
+                <div className="text-center text-sm text-green-600 py-2">
+                  ✓ You have rated this user
+                </div>
+              )}
+              <Button variant="outline" onClick={handleStartChat} disabled={chatLoading} className="w-full">
+                <MessageCircle className="h-4 w-4 mr-2" />
+                {chatLoading ? 'Starting...' : 'Message'}
+              </Button>
+            </div>
+          )}
+
+          {request.status === "active" && (
             <Button variant="outline" onClick={handleStartChat} disabled={chatLoading} className="w-full">
               <MessageCircle className="h-4 w-4 mr-2" />
               {chatLoading ? 'Starting...' : 'Message'}
@@ -267,6 +324,22 @@ export function RequestApprovalDialog({ request, open, onOpenChange, onUpdate }:
           </Button>
         </DialogFooter>
       </DialogContent>
+      
+      {/* Rating Modal */}
+      {showRatingModal && user && (
+        <RatingModal
+          isOpen={showRatingModal}
+          onClose={() => setShowRatingModal(false)}
+          requestId={request.id}
+          ratedUser={{
+            id: user.id === request.borrower_id ? request.owner.id : request.borrower.id,
+            full_name: user.id === request.borrower_id ? request.owner.full_name : request.borrower.full_name,
+            avatar_url: user.id === request.borrower_id ? request.owner.avatar_url : request.borrower.avatar_url
+          }}
+          ratingType={user.id === request.borrower_id ? 'borrower_to_lender' : 'lender_to_borrower'}
+          onRatingSubmitted={handleRatingSubmitted}
+        />
+      )}
     </Dialog>
   );
 }

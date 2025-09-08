@@ -10,10 +10,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Progress } from "@/components/ui/progress";
 import { TIER_COLORS, TIER_BENEFITS, getUserTierProgress } from "@/lib/tiers";
-import { User, Mail, Calendar, Edit, Save, X, Camera } from "lucide-react";
+import { User, Mail, Calendar, Edit, Save, X, Camera, Star } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { supabase } from "@/lib/supabase";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { StarDisplay } from "@/components/ui/StarRating";
+import { getUserRatingStats } from "@/lib/ratings";
+import { UserRatings } from "@/components/UserRatings";
 
 export function ProfileClient() {
   const { user, profile, refreshProfile, loading: authLoading } = useAuth();
@@ -26,14 +29,27 @@ export function ProfileClient() {
   const [isUploadingAvatar, setIsUploadingAvatar] = useState(false);
   const [uploadMessage, setUploadMessage] = useState<{ type: "success" | "error"; message: string } | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [ratingStats, setRatingStats] = useState<{ averageRating: number; totalRatings: number } | null>(null);
 
   useEffect(() => {
     if (profile) {
       setFormData({
         full_name: profile.full_name || "",
       });
+      // Load rating stats
+      loadRatingStats();
     }
   }, [profile]);
+
+  const loadRatingStats = async () => {
+    if (!user) return;
+    try {
+      const stats = await getUserRatingStats(user.id);
+      setRatingStats(stats);
+    } catch (error) {
+      console.error('Error loading rating stats:', error);
+    }
+  };
 
   const handleSave = async () => {
     if (!user) return;
@@ -244,6 +260,22 @@ export function ProfileClient() {
                   </div>
                 </div>
 
+                {/* Rating Display */}
+                <div>
+                  <Label className="text-muted-foreground text-xs sm:text-sm flex items-center">
+                    <Star className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
+                    Rating
+                  </Label>
+                  {ratingStats && ratingStats.totalRatings > 0 ? (
+                    <div className="flex items-center space-x-2 mt-1">
+                      <StarDisplay rating={ratingStats.averageRating} size="sm" showValue />
+                      <span className="text-xs text-muted-foreground">({ratingStats.totalRatings} reviews)</span>
+                    </div>
+                  ) : (
+                    <p className="text-xs sm:text-sm text-muted-foreground mt-1">No ratings yet</p>
+                  )}
+                </div>
+
                 <div className="text-sm">
                   <Label className="text-muted-foreground flex items-center text-xs sm:text-sm">
                     <Calendar className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
@@ -330,6 +362,11 @@ export function ProfileClient() {
             </CardContent>
           </Card>
         </div>
+      </div>
+
+      {/* Ratings Section */}
+      <div className="mt-6">
+        <UserRatings userId={user.id} />
       </div>
     </div>
   );
